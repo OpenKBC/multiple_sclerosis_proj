@@ -1,6 +1,6 @@
-# Korean Bioinformatics Club Project for multiple sclerosis (Open-Project)
+# KBC Multiple Sclerosis Project
 
-* First open project by stealth team from Korea Bioinformatics Club.
+* Purpose of this project is for helping multiple sclerosis patients by Bioinformatics technologies, and we are working for conquering muliple sclerosis. This project is desinged /managed by Korean Bioinformatics Club(KBC)
 * Current members: Kicheol Kim, Junhee Yoon
 * Please, leave a message in **Discussions** tab if you have any question and requests
 
