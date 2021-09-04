@@ -1,37 +1,20 @@
-## Welcome to GitHub Pages
+# Korean Bioinformatics Club Project for multiple sclerosis (Open-Project)
 
-You can use the [editor on GitHub](https://github.com/OpenKBC/multiple_sclerosis_proj/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+* First open project by stealth team from Korea Bioinformatics Club.
+* Current members: Kicheol Kim, Junhee Yoon
+* Please, leave a message in **Discussions** tab if you have any question and requests
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Object
+* Finding potential biomarkers and therapeutic target for helping multiple sclerosis patients, **reference**: [Cell type-specific transcriptomics identifies neddylation as a novel therapeutic target in multiple sclerosis](https://pubmed.ncbi.nlm.nih.gov/33374005/)
 
-### Markdown
+### Phase 1
+* Biomarker for **early detection** & **progression**
+* Therapeutic target discovery
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Phase 2
+* Find or develop business ideas and skills to be an entrepreneur
 
-```markdown
-Syntax highlighted code block
+### Resources
+* Slides (Ask to members)
+* https://openkbc.github.io/multiple_sclerosis_proj/
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/OpenKBC/multiple_sclerosis_proj/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
