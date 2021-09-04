@@ -14,3 +14,5 @@
 ### Phase 2
 * Find or develop business ideas and skills to be an entrepreneur
 
+### Resources
+* (Limited access) https://docs.google.com/presentation/d/1CXM45IOYcD84ClPm7FyPxlEGOgefoLFPtcPdRQ8ACmE/edit?usp=sharing
