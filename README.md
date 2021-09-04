@@ -1,6 +1,8 @@
 # Korean Bioinformatics Club Project for multiple sclerosis (Open-Project)
 
-First open project by stealth team from Korea Bioinformatics Club.
+* First open project by stealth team from Korea Bioinformatics Club.
+* Current members: Kicheol Kim, Junhee Yoon
+* Please, leave a message through **Issues** if you have any question and requests
 
 ### Object
 * Finding potential biomarkers and therapeutic target for helping multiple sclerosis patients, **reference**: [Cell type-specific transcriptomics identifies neddylation as a novel therapeutic target in multiple sclerosis](https://pubmed.ncbi.nlm.nih.gov/33374005/)
