@@ -11,7 +11,7 @@
 * Finding therapeutic target discovery based on biological dataset
 
 ### Phase 2
-* Finding and developing business ideas and skills to make this project for helping patients
+* Finding and developing actual business ideas or a practical usage case to make this project for helping patients
 
 ### Resources
 * Slides (Ask to members)
