@@ -1,6 +1,5 @@
 # Korean Bioinformatics Club Project for multiple sclerosis (Open-Project)
 
-* First open project by stealth team from Korea Bioinformatics Club.
 * Current members: Kicheol Kim, Junhee Yoon
 * Please, leave a message in **Discussions** tab if you have any question and requests
 
