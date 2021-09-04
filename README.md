@@ -7,11 +7,11 @@
 * Finding potential biomarkers and therapeutic target for helping multiple sclerosis patients, **reference**: [Cell type-specific transcriptomics identifies neddylation as a novel therapeutic target in multiple sclerosis](https://pubmed.ncbi.nlm.nih.gov/33374005/)
 
 ### Phase 1
-* Biomarker for **early detection** & **progression**
-* Therapeutic target discovery
+* Extracting significant signal from the dataset and finding Biomarker for **early detection** & **progression**
+* Finding therapeutic target discovery based on biological dataset
 
 ### Phase 2
-* Find or develop business ideas and skills to be an entrepreneur
+* Finding and developing business ideas and skills to make this project for helping patients
 
 ### Resources
 * Slides (Ask to members)
