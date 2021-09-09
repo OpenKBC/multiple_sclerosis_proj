@@ -1,0 +1,8 @@
+# Custom
+data/
+
+# MAC
+.DS_Store
+
+# Python
+__pycache__/
