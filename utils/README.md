@@ -7,8 +7,10 @@ pip install -r requirements.txt
 ```
 
 ### 1. get_matrix_from_files.py
+This code is for making matrix expression from files, and final output file will be [feather format](https://arrow.apache.org/docs/python/feather.html)
 ```shell
 python get_matrix_from_files.py --help
+
 optional arguments:
   -h, --help            show this help message and exit
   -t {genes,isoforms}, --ftype {genes,isoforms}
