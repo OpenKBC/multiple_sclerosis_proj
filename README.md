@@ -15,4 +15,5 @@
 
 ### Resources
 * Slides (Ask to members)
+* S3 Bucket (Ask to members)
 * https://openkbc.github.io/multiple_sclerosis_proj/
