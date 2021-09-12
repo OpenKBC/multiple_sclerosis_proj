@@ -24,13 +24,13 @@ parser.add_argument('-o','--output', type=str, dest='output', required=True, def
      help='Output file path and name')
 args = parser.parse_args()
 
-def _get_column(filename_with_path, ext_value, sep="\t"):
+def _get_column(filename_with_path,  ext_value, annot='gene_id', sep="\t"):
     """
     filename_with_path = filepath + basename
     ext_value = column name of file
     sep = separator
     """
-    temp = pd.read_csv(filename_with_path, sep=sep) # temp loading
+    temp = pd.read_csv(filename_with_path, sep=sep).set_index(annot) # temp loading
     return temp[[ext_value]]
 
 def _get_samplename(filelist):
@@ -54,6 +54,7 @@ if __name__ == "__main__":
         sampleValues = _get_column(COUNT_PATH+filename, args.valuetype)
         result_arr.append(sampleValues)
     result_df = pd.concat(result_arr, axis=1)
-    
     result_df.columns = sampleName # Change column name by using sample names
+    
+    result_df = result_df.reset_index() # reset index for feather format
     result_df.to_feather(args.output+".feather") # Feather output
