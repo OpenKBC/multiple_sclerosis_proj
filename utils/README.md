@@ -1,4 +1,4 @@
-#Useful Utils for the project
+# Utils for the project
 
 ### Requirements
 ```shell
