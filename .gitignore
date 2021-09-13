@@ -6,3 +6,6 @@ data/
 
 # Python
 __pycache__/
+.Rproj.user
+*.Rproj
+.Rhistory
