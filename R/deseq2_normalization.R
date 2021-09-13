@@ -66,4 +66,3 @@ write.csv(assay(vst(deseq_obj$CD14)), "counts_vst_CD14.csv")
 write.csv(assay(rlog(deseq_obj$CD4)), "counts_rlog_CD4.csv")
 write.csv(assay(rlog(deseq_obj$CD8)), "counts_rlog_CD8.csv")
 write.csv(assay(rlog(deseq_obj$CD14)), "counts_rlog_CD14.csv")
-
