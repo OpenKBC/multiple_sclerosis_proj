@@ -1,0 +1,13 @@
+version: "3"
+services:
+  notebook:
+    build:
+      dockerfile: Dockerfile_jupyterNotebook
+    volumes:
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_lib:/home/jovyan/work/notebook_lib
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_utils:/home/jovyan/work/notebook_utils
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/resultFiles:/home/jovyan/work/resultFiles
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/home/jovyan/data
+    ports:
+        - 8888:8888
+    container_name: datascience-notebook-container
