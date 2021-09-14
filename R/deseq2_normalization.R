@@ -2,15 +2,17 @@
 ##### normalization using DESeq2 - get normalized and vst transformed counts #####
 ##################################################################################
 ### install DESeq2, tximport packages from Bioconductor
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#   install.packages("BiocManager")
-# BiocManager::install("DESeq2")
-# BiocManager::install("tximport")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager", repos='http://cran.us.r-project.org')
+  BiocManager::install("DESeq2")
+  BiocManager::install("tximport")
+
 library(tidyverse)
 library(DESeq2)
 library(tximport)
 
-data_path <- "~/Downloads/MS_RNAseq_NAE1"
+data_path <- "../data/"
+print(getwd())
 setwd(data_path)
 
 # loading metadata
@@ -66,3 +68,4 @@ write.csv(assay(vst(deseq_obj$CD14)), "counts_vst_CD14.csv")
 write.csv(assay(rlog(deseq_obj$CD4)), "counts_rlog_CD4.csv")
 write.csv(assay(rlog(deseq_obj$CD8)), "counts_rlog_CD8.csv")
 write.csv(assay(rlog(deseq_obj$CD14)), "counts_rlog_CD14.csv")
+
