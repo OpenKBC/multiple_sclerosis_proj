@@ -51,6 +51,9 @@ for (i in celltypes){
 
 
 ### save count matrix
+# save DESeq2 object
+save(deseq_obj, file = "DESeq2_object.RData")
+
 # normalized counts
 write.csv(counts(deseq_obj$CD4, normalized = TRUE), "counts_norm_CD4.csv")
 write.csv(counts(deseq_obj$CD8, normalized = TRUE), "counts_norm_CD8.csv")
@@ -65,3 +68,4 @@ write.csv(assay(vst(deseq_obj$CD14)), "counts_vst_CD14.csv")
 write.csv(assay(rlog(deseq_obj$CD4)), "counts_rlog_CD4.csv")
 write.csv(assay(rlog(deseq_obj$CD8)), "counts_rlog_CD8.csv")
 write.csv(assay(rlog(deseq_obj$CD14)), "counts_rlog_CD14.csv")
+
