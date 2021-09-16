@@ -1,13 +1,17 @@
-from .statistics import STAT
-from scipy import stats
-import numpy as np
+__author__ = "Junhee Yoon"
+__version__ = "1.0.0"
+__maintainer__ = "Junhee Yoon"
+__email__ = "swiri021@gmail.com"
+
 """
 Manual: https://github.com/swiri021/NWPV2
 Reference: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3135688/
 Description: Method of combined p-values for getting DEG in dataset
 """
 
-
+from .statistics import STAT
+from scipy import stats
+import numpy as np
 
 class nwpv_calculation(object):
 	def _preprocessing(self, min_adj=1e-16, max_adj=0.9999999999999999):

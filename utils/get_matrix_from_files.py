@@ -1,10 +1,17 @@
+__author__ = "Junhee Yoon"
+__version__ = "1.0.0"
+__maintainer__ = "Junhee Yoon"
+__email__ = "swiri021@gmail.com"
+
+"""
+Description: This code generates expression matrix by using raw data files from GEO.
+We have normalized data and we don't need to use this usually, but to get original read_count, this would be helpful.s
+"""
+
 import glob
 import os
 import argparse
 import pandas as pd
-
-# Naming rule
-# SampleName-CD-genes(isoforms).results
 
 parser = argparse.ArgumentParser(prog='get_matrix_from_files.py')
 # Mode selection
