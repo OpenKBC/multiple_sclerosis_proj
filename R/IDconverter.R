@@ -16,7 +16,7 @@ names(data) <- sub("^X", "", names(data)) # drop "X" string in columns name
 
 ### Warning ###
 # Entrez ID might duplicate for Ensemble ID
-data$entrez = mapIds(org.Hs.eg.db,  keys=row.names(data), column="ENTREZID", keytype="ENSEMBL", multiVals="first")
-row.names(data)<-make.names(data$entrez, unique=TRUE)
+entrez = mapIds(org.Hs.eg.db,  keys=row.names(data), column="ENTREZID", keytype="ENSEMBL", multiVals="first")
+row.names(data)<-make.names(entrez, unique=TRUE)
 row.names(data) <- sub("^X", "", row.names(data)) # drop "X" string in index name
 write.table(data, outputFile, sep=',', row.names = TRUE, col.names = TRUE) # Write result
