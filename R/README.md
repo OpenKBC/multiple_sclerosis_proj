@@ -1,4 +1,4 @@
-# Utils for the project
+# R Utils for the project
 
 ### Requirements
 ```shell
