@@ -4,6 +4,7 @@ __maintainer__ = "Junhee Yoon"
 __email__ = "swiri021@gmail.com"
 
 """
+EXPERIMENTAL CODE
 Manual: https://github.com/swiri021/Threaded_gsZscore
 Reference: https://genomebiology.biomedcentral.com/articles/10.1186/gb-2006-7-10-r93
 Description: calculating activation score by using threaded z score
@@ -13,6 +14,7 @@ import numpy as np
 import threading
 import functools
 import itertools
+import math
 
 class funcThread(object):
     def __init__(self):
@@ -29,6 +31,9 @@ class funcThread(object):
             ####Divide Samples by number of threads
             i_col = len(args[1].columns.tolist())
             contents_numb = i_col/kwargs['nthread']
+            #contents_numb = math.ceil(contents_numb)
+            contents_numb = round(contents_numb) # round for matching thread number
+
             split_columns = [args[1].columns.tolist()[i:i+contents_numb] for i in range(0, len(args[1].columns.tolist()), contents_numb)]
             if len(split_columns)>kwargs['nthread']:
                 split_columns = split_columns[:kwargs['nthread']-1] + [list(itertools.chain(*split_columns[kwargs['nthread']-1:]))]
@@ -37,7 +42,7 @@ class funcThread(object):
 
             ####Running threads
             for i, item in enumerate(split_columns):
-                threads[i] = threading.Thread(target = func, args=(args[0], args[1].ix[:,item], container, i), kwargs=kwargs)
+                threads[i] = threading.Thread(target = func, args=(args[0], args[1][item], container, i), kwargs=kwargs)
                 threads[i].start()
             for i in range(len(threads)):
                 threads[i].join()
@@ -56,7 +61,7 @@ class calculator(object):
             self.df = df
 
     # Wrapper for controlling Threads
-    def gs_zscore(self, nthread=5, gene_set=[]):
+    def gs_zscore(self, nthread=4, gene_set=[]):
         arr1 = self.df
         container = None
         i = None
@@ -66,7 +71,7 @@ class calculator(object):
     # function structure
     # args(input, container, thread_index , **kwargs)
     @funcThread()
-    def _calculating(self, arr1, container, i, nthread=5, gene_set=[]):
+    def _calculating(self, arr1, container, i, nthread=4, gene_set=[]):
         zscore=[]
         arr1_index = arr1.index.tolist()
         inter = list(set(arr1_index).intersection(gene_set))

@@ -10,7 +10,7 @@ and it takes care of duplications of Ensembl IDs. After doing this code, R/IDcon
 
 import argparse
 import pandas as pd
-import os
+import numpy as np
 
 parser = argparse.ArgumentParser(prog='cleanup_normalized_matrix.py')
 # Input data
@@ -19,6 +19,9 @@ parser.add_argument('-i','--input', type=str, dest='input_df', required=True,\
 # Output path
 parser.add_argument('-o','--output', type=str, dest='output', required=True,\
      help='Output file name including path')
+
+parser.add_argument('-v','--vst', dest='vst', action='store_true',default=False,\
+     help='Input data is vst normalized or not, default = False')
 args = parser.parse_args()
 
 if __name__ == "__main__":
@@ -34,6 +37,9 @@ if __name__ == "__main__":
     df.index = [x.split(".")[0] for x in df.index.tolist()] # New index names
     df.columns = [x.split(".")[0] for x in df.columns.tolist()] # New column names
     df = df[~df.index.duplicated(keep='first')] # Taking first values in duplicated index
+
+    if args.vst==False:
+        df=df.applymap(lambda x: np.log2(x+1)) # Apply log2 for non-vst normalized data
 
     ## Need to add file name handler
     if '.csv' in args.input_df:
