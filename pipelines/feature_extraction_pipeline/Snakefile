@@ -1,0 +1,56 @@
+__author__ = "Junhee Yoon"
+__version__ = "1.0.0"
+__maintainer__ = "Junhee Yoon"
+__email__ = "swiri021@gmail.com"
+
+configfile: "config.yaml"
+SAMPLES = ['CD4','CD8','CD14']
+
+rule all:
+    input:
+        #expand("result/Ranksum.RFECV.{cell}.gene.csv",cell=['CD4','CD8','CD14'])
+        expand("exprMatrix/counts_"+config["NormalizeData"]["type"]+"_{cell}.converted.csv",  cell=['CD4','CD8','CD14'])
+        #expand("ActMatrix/msigdb_activation_"+config["NormalizeData"]["type"]+"_{cell}.csv",  cell=['CD4','CD8','CD14'])
+
+#rule count_normalization:
+#    input:
+#        config["countInput"]
+
+rule clean_normalized_data:
+    input:
+        config["NormalizeData"]["path"]+"counts_"+config["NormalizeData"]["type"]+"_{sample}.csv"
+    output:
+        "exprMatrix/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
+    run:
+        if config["NormalizeData"]["type"]=='vst':
+            shell("python import_utils/cleanup_normalized_matrix.py -i {input} -o {output} --vst")
+        else:
+            shell("python import_utils/cleanup_normalized_matrix.py -i {input} -o {output}")
+
+rule id_conversion:
+    input:
+        "exprMatrix/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
+    output:
+        "exprMatrix/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
+    shell:
+        "Rscript import_utils/IDconverter.R {input} {output}"
+
+"""
+rule get_all_activation_score:
+    input:
+        "exprMatrix/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
+    output:
+        "ActMatrix/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
+    shell:
+        "python import_utils/get_all_activation_scores.py -i {input} -o {output}"
+
+rule step1_activationScore:
+    input:
+        "ActMatrix/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
+    output:
+        "FEResult/Ranksum.{sample}.act.csv"
+    params:
+        config["MetaInput"]
+    shell:
+        "python import_ML/step1_actscoreDiff.py {input} {params} {output}"
+"""

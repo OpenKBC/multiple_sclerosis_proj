@@ -1,0 +1,8 @@
+# For extract count and normalize raw count from data
+#countInput: /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data/rsem_counts
+
+MetaInput: /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data/annotation_metadata/EPIC_HCvB_metadata_baseline_updated-share.csv
+NormalizeData:
+  path: /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data/counts_normalized/rawFiles/
+  type: vst # vst or norm
+

@@ -9,3 +9,6 @@ __pycache__/
 .Rproj.user
 *.Rproj
 .Rhistory
+.snakemake
+resultFiles
+exprMatrix

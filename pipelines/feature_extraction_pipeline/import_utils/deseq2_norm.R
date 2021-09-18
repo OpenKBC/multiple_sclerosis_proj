@@ -11,16 +11,21 @@ library(tidyverse)
 library(DESeq2)
 library(tximport)
 
+args = commandArgs(trailingOnly=TRUE)
+inputpath = args[1] # with path
+outputFile = args[2] # with path
+metadataPath = args[3]
+
 data_path <- "../data/"
 print(getwd())
 setwd(data_path)
 
 # loading metadata
-metadata <- read_csv(paste0(data_path,"/EPIC_HCvB_metadata_baseline_updated-share.csv"))
+metadata <- read_csv(metadataPath))
 colnames(metadata)[1] <- "sampleID"
 
 # loading rsem filelist
-files <- list.files(path=paste0(data_path,"/rsem_counts"), pattern="*.genes.results", recursive = TRUE, full.names = TRUE)
+files <- list.files(path=inputpath, pattern="*.genes.results", recursive = TRUE, full.names = TRUE)
 
 # create sample table
 sampleTable <- data.frame(sampleID = str_extract(files, "\\d{5}\\w"), CellType = str_extract(files, "CD\\d{1,2}"), files = files) %>% 
