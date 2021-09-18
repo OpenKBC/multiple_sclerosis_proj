@@ -1,3 +1,5 @@
+import numpy as np
+
 class ExtractionToolkit(object):
     def get_sample_name_by_category(dataframe, sampleColumn, dataColname):
         """
@@ -37,3 +39,26 @@ class ExtractionToolkit(object):
         print("Sample List Count : "+str(len(sampleList)))
         print("Intersected Count : "+str(len(intersected_samples)))
         return dataframe[[intersected_samples]]
+    
+    def get_sample_name_by_contValues(dataframe, sampleColumn, dataColname, threshold):
+        """
+        Description:
+        This function is for getting sample name by continuous value
+        Don't use this function with categorical value, it supports to 2 sample groups(greater than and less than)
+        
+        Input:
+        dataframe = Dataframe for extraction
+        sampleColumn = Sample name column
+        dataColumn = Data value column
+
+        Output:
+        list sample names(greater and less)
+        """
+        cont_df = dataframe.dropna(subset=[dataColname]) # continuous perspective dataframe
+        cont_df[dataColname] = cont_df[dataColname].astype(float) # make float
+
+        threshValue = np.percentile(cont_df[dataColname].values.tolist(), threshold)
+        greater_samples = cont_df.loc[ cont_df[dataColname] >= threshValue, sampleColumn]
+        less_samples = cont_df.loc[ cont_df[dataColname] < threshValue, sampleColumn]
+        
+        return (less_samples, greater_samples)
