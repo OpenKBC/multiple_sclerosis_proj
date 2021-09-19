@@ -1,13 +1,23 @@
 version: "3"
 services:
-  notebook:
+
+  notebook: # Notebook
     build:
       dockerfile: Dockerfile_jupyterNotebook
     volumes:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_lib:/home/jovyan/work/notebook_lib
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_utils:/home/jovyan/work/notebook_utils
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_archive:/home/jovyan/work/notebook_archive
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/resultFiles:/home/jovyan/work/resultFiles
-      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/home/jovyan/data
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/home/jovyan/MainData
     ports:
-        - 8888:8888
-    container_name: datascience-notebook-container
+      - 8888:8888
+    container_name: notebook-container
+
+  pipelines: # Pipelines
+    build:
+      dockerfile: Dockerfile_SnakemakePipeline
+    volumes:
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/MainData
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/resultFiles:/Output
+    container_name: pipeline-container

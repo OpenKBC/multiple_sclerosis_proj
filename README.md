@@ -19,8 +19,22 @@
 * https://openkbc.github.io/multiple_sclerosis_proj/
 
 ### Usage of docker container
-* Use docker-compose for using jupyter notebook
+* 2 images are composing up for jupyter notebook and workflow. The workflow image does not have controller currently, so user needs to get inside to control it by using docker attach.
+
+![overview](README_resource/overview.png)
+
+* Containers
+```shell
+docker-compose up # composing up
 ```
-docker-compose up
+
+* Jupyter notebook
 ```
-* Access http://localhost:8888/token
+# Access jupyter notebook
+http://localhost:8888/token_number
+```
+* Workflow container
+```shell
+docker attach pipelines
+```
+
