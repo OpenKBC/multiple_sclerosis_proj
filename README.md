@@ -2,6 +2,7 @@
 
 * Current members: Kicheol Kim, Junhee Yoon
 * Please, leave a message in **Discussions** tab if you have any question and requests
+* Please use docker image to analyze the data. Our aws-cli module will be developed soon, please ask to members to get the data currently.
 
 ### Goal
 * Finding potential biomarkers and therapeutic target for helping multiple sclerosis patients, **reference**: [Cell type-specific transcriptomics identifies neddylation as a novel therapeutic target in multiple sclerosis](https://pubmed.ncbi.nlm.nih.gov/33374005/)
