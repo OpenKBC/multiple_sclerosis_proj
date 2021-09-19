@@ -1,4 +1,4 @@
-# Custom
+# s3 entire data
 data/
 
 # MAC
@@ -10,5 +10,10 @@ __pycache__/
 *.Rproj
 .Rhistory
 .snakemake
+
+# Custom Result folders
 resultFiles
 exprMatrix
+ActMatrix
+FEResult
+logs

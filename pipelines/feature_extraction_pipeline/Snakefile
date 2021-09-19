@@ -3,54 +3,96 @@ __version__ = "1.0.0"
 __maintainer__ = "Junhee Yoon"
 __email__ = "swiri021@gmail.com"
 
+# Needs gene normalization step with DESeq at the first
+
 configfile: "config.yaml"
 SAMPLES = ['CD4','CD8','CD14']
 
 rule all:
     input:
-        #expand("result/Ranksum.RFECV.{cell}.gene.csv",cell=['CD4','CD8','CD14'])
-        expand("exprMatrix/counts_"+config["NormalizeData"]["type"]+"_{cell}.converted.csv",  cell=['CD4','CD8','CD14'])
-        #expand("ActMatrix/msigdb_activation_"+config["NormalizeData"]["type"]+"_{cell}.csv",  cell=['CD4','CD8','CD14'])
-
-#rule count_normalization:
-#    input:
-#        config["countInput"]
+        expand(config["FeatureOutput"]+"{cell}.Ranksum.RFECV.gene.result",  cell=['CD4','CD8','CD14'])
 
 rule clean_normalized_data:
     input:
         config["NormalizeData"]["path"]+"counts_"+config["NormalizeData"]["type"]+"_{sample}.csv"
     output:
-        "exprMatrix/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
+        config["DataOutput"]+"counts_normalized/cleanedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
+    log:
+        "logs/clean_normalized_data_{sample}.log"
     run:
         if config["NormalizeData"]["type"]=='vst':
-            shell("python import_utils/cleanup_normalized_matrix.py -i {input} -o {output} --vst")
+            shell("python import_utils/cleanup_normalized_matrix.py -i {input} -o {output} --vst >& {log}")
         else:
-            shell("python import_utils/cleanup_normalized_matrix.py -i {input} -o {output}")
+            shell("python import_utils/cleanup_normalized_matrix.py -i {input} -o {output} >& {log}")
 
 rule id_conversion:
     input:
-        "exprMatrix/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
+        config["DataOutput"]+"counts_normalized/cleanedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
     output:
-        "exprMatrix/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
+        config["DataOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
+    log:
+        "logs/id_conversion_{sample}.log"
     shell:
-        "Rscript import_utils/IDconverter.R {input} {output}"
+        "Rscript import_utils/IDconverter.R {input} {output} >& {log}"
 
-"""
 rule get_all_activation_score:
     input:
-        "exprMatrix/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
+        config["DataOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
     output:
-        "ActMatrix/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
+        config["DataOutput"]+"activation_scores/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
+    log:
+        "logs/get_all_activation_score_{sample}.log"
     shell:
-        "python import_utils/get_all_activation_scores.py -i {input} -o {output}"
+        "python import_utils/get_all_activation_scores.py -i {input} -o {output} >& {log}"
 
-rule step1_activationScore:
+rule step1_activationScoreDiff:
     input:
-        "ActMatrix/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
+        config["DataOutput"]+"activation_scores/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
     output:
-        "FEResult/Ranksum.{sample}.act.csv"
+        config["FeatureOutput"]+"{sample}.Ranksum.act.csv"
     params:
         config["MetaInput"]
+    log:
+        "logs/step1_activationScoreDiff_{sample}.log"
     shell:
-        "python import_ML/step1_actscoreDiff.py {input} {params} {output}"
-"""
+        "python import_ML/step1_actscoreDiff.py {input} {params} {output} >& {log} "
+
+rule step2_activationScoreRFECV:
+    input:
+        config["FeatureOutput"]+"{sample}.Ranksum.act.csv"
+    output:
+        config["FeatureOutput"]+"{sample}.Ranksum.RFECV.act.csv"
+    params:
+        meta = config["MetaInput"],
+        rankingThresh = config["RFECVrankingThreshold"]["step2"]
+    log:
+        "logs/step2_activationScoreRFECV_{sample}.log"
+    shell:
+        "python import_ML/step2_actscoreRFECV.py {input} {params.meta} {params.rankingThresh} {output} >& {log}"
+
+rule step3_geneExprDiff:
+    input:
+        config["FeatureOutput"]+"{sample}.Ranksum.RFECV.act.csv"
+    output:
+        config["FeatureOutput"]+"{sample}.Ranksum.gene.csv"
+    params:
+        geneExpr = config["DataOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv",
+        meta = config["MetaInput"],
+        msigDB = config["MsigDBInput"]
+    log:
+        "logs/step3_geneExprDiff_{sample}.log"
+    shell:
+        "python import_ML/step3_geneDiff.py {input} {params.geneExpr} {params.meta} {params.msigDB} {output} >& {log}"
+
+rule step4_geneRFECV:
+    input:
+        config["FeatureOutput"]+"{sample}.Ranksum.gene.csv"
+    output:
+        config["FeatureOutput"]+"{sample}.Ranksum.RFECV.gene.result"
+    params:
+        meta = config["MetaInput"],
+        rankingThresh = config["RFECVrankingThreshold"]["step4"]
+    log:
+        "logs/step4_geneRFECV_{sample}.log"
+    shell:
+        "python import_ML/step2_actscoreRFECV.py {input} {params.meta} {params.rankingThresh} {output} >& {log}"

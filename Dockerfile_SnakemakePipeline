@@ -1,0 +1,13 @@
+FROM snakemake/snakemake
+
+COPY notebook/installers/installer_Rpackage.R /installer_Rpackage.R
+# Should make to copy all requirements.txt to image
+COPY pipelines/feature_extraction_pipeline/requirements.txt /requirements.txt
+COPY pipelines/ /pipelines
+
+RUN apt-get update && apt-get install -y r-base
+RUN Rscript /installer_Rpackage.R
+RUN pip install -r /requirements.txt
+
+WORKDIR /pipelines/feature_extraction_pipeline
+ENTRYPOINT [ "snakemake", "--cores", "3" ]
