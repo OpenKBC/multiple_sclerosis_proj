@@ -1,3 +1,8 @@
+__author__ = "Junhee Yoon"
+__version__ = "1.0.0"
+__maintainer__ = "Junhee Yoon"
+__email__ = "swiri021@gmail.com"
+
 from flask import Flask, request, render_template, redirect, url_for, session
 from flask_bootstrap import Bootstrap
 from models import InitForm, YamlForm

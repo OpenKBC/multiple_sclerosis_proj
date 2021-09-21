@@ -1,3 +1,8 @@
+__author__ = "Junhee Yoon"
+__version__ = "1.0.0"
+__maintainer__ = "Junhee Yoon"
+__email__ = "swiri021@gmail.com"
+
 from flask_wtf import Form
 from wtforms import TextField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import Length, Required
