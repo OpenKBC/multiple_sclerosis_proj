@@ -1,0 +1,7 @@
+gunicorn==20.1.0
+Jinja2==3.0.1
+PyYAML==5.4.1
+flask==2.0.1
+Flask-WTF==0.15.1
+Flask-Bootstrap==3.3.7.1
+flask-nav==0.6
