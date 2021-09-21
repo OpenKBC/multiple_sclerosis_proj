@@ -36,6 +36,7 @@ http://localhost:8888/token_number
 ```
 * Workflow container
 ```shell
-docker attach pipelines
+#Not prepared controller yet, please get into the container to run snakemake workflow separately
+docker exec -it container_name_of_pipelines bash
 ```
 

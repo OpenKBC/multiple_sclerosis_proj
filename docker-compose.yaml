@@ -20,4 +20,6 @@ services:
     volumes:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/MainData
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/resultFiles:/Output
+    ports:
+      - 80:5000
     container_name: pipeline-container
