@@ -5,7 +5,9 @@ __email__ = "swiri021@gmail.com"
 
 # Needs gene normalization step with DESeq at the first
 
-configfile: "config.yaml"
+# For manual running, please use this one
+#configfile: "config.yaml"
+
 SAMPLES = ['CD4','CD8','CD14']
 
 rule all:
@@ -18,7 +20,7 @@ rule clean_normalized_data:
     output:
         config["DataOutput"]+"counts_normalized/cleanedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
     log:
-        "logs/clean_normalized_data_{sample}.log"
+        "logs/clean_normalized_data_{sample}_"+config["logID"]+".log"
     run:
         if config["NormalizeData"]["type"]=='vst':
             shell("python import_utils/cleanup_normalized_matrix.py -i {input} -o {output} --vst >& {log}")
@@ -31,7 +33,7 @@ rule id_conversion:
     output:
         config["DataOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
     log:
-        "logs/id_conversion_{sample}.log"
+        "logs/id_conversion_{sample}_"+config["logID"]+".log"
     shell:
         "Rscript import_utils/IDconverter.R {input} {output} >& {log}"
 
@@ -41,7 +43,7 @@ rule get_all_activation_score:
     output:
         config["DataOutput"]+"activation_scores/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
     log:
-        "logs/get_all_activation_score_{sample}.log"
+        "logs/get_all_activation_score_{sample}_"+config["logID"]+".log"
     shell:
         "python import_utils/get_all_activation_scores.py -i {input} -o {output} >& {log}"
 
@@ -53,7 +55,7 @@ rule step1_activationScoreDiff:
     params:
         config["MetaInput"]
     log:
-        "logs/step1_activationScoreDiff_{sample}.log"
+        "logs/step1_activationScoreDiff_{sample}_"+config["logID"]+".log"
     shell:
         "python import_ML/step1_actscoreDiff.py {input} {params} {output} >& {log} "
 
@@ -66,7 +68,7 @@ rule step2_activationScoreRFECV:
         meta = config["MetaInput"],
         rankingThresh = config["RFECVrankingThreshold"]["step2"]
     log:
-        "logs/step2_activationScoreRFECV_{sample}.log"
+        "logs/step2_activationScoreRFECV_{sample}_"+config["logID"]+".log"
     shell:
         "python import_ML/step2_actscoreRFECV.py {input} {params.meta} {params.rankingThresh} {output} >& {log}"
 
@@ -80,7 +82,7 @@ rule step3_geneExprDiff:
         meta = config["MetaInput"],
         msigDB = config["MsigDBInput"]
     log:
-        "logs/step3_geneExprDiff_{sample}.log"
+        "logs/step3_geneExprDiff_{sample}_"+config["logID"]+".log"
     shell:
         "python import_ML/step3_geneDiff.py {input} {params.geneExpr} {params.meta} {params.msigDB} {output} >& {log}"
 
@@ -93,6 +95,6 @@ rule step4_geneRFECV:
         meta = config["MetaInput"],
         rankingThresh = config["RFECVrankingThreshold"]["step4"]
     log:
-        "logs/step4_geneRFECV_{sample}.log"
+        "logs/step4_geneRFECV_{sample}_"+config["logID"]+".log"
     shell:
         "python import_ML/step2_actscoreRFECV.py {input} {params.meta} {params.rankingThresh} {output} >& {log}"
