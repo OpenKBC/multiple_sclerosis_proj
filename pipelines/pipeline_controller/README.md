@@ -1,4 +1,4 @@
-### Pipeline Controller
+## Pipeline Controller
 This is pipeline controller(SnakeMake) for pipeline container by using Flask, Jinja2 and Bootstrap. This controller provides config.yaml form for executing snakemake and it will execute the workflow after submission.
 
 **Current version(v1.0.0) does not have loading spinner, please wait for browser spinne instead of itr**
