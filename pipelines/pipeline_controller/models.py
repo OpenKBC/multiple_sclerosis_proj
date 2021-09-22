@@ -5,7 +5,7 @@ __email__ = "swiri021@gmail.com"
 
 from flask_wtf import Form
 from wtforms import TextField, SubmitField, TextAreaField, SelectField
-from wtforms.validators import Length, Required
+from wtforms.validators import Required
 
 import glob
 
@@ -27,6 +27,3 @@ class InitForm(Form):
     #submit = SubmitField('Submit')
 
     submit = SubmitField('Submit')
-
-class YamlForm(Form):
-    inputPath = TextField('Enter Input path which has sample file', validators=[Required()], render_kw={'placeholder': '/home/samples/'})

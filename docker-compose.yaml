@@ -12,7 +12,7 @@ services:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/home/jovyan/MainData
     ports:
       - 8888:8888
-    container_name: notebook-container
+    container_name: notebook-container:v1.0.0
 
   pipelines: # Pipelines
     build:
@@ -22,4 +22,4 @@ services:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/resultFiles:/Output
     ports:
       - 80:5000
-    container_name: pipeline-container
+    container_name: pipeline-container:v1.0.0
