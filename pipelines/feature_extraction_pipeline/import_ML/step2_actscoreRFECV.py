@@ -19,7 +19,7 @@ from lib.statFunction import StatHandler
 # Simple control for snakemake(no argparse)
 actScoreInput=argv[1]
 metaData=argv[2]
-rankingthresh=argv[3]
+rankingthresh=int(argv[3])
 outputFile=argv[4]
 
 if __name__ == "__main__":

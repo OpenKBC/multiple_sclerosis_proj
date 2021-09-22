@@ -102,10 +102,11 @@ def workflow_status():
     print(cmd)
     try:
         p = subprocess.check_output([cmd], shell=True)
+        msg = "Workflow has been completed: "+p
     except subprocess.CalledProcessError as e:
-        p = "Error occur in snakemake, please check log files in pipelines folder"
+        msg = "Error occur in snakemake, please check log files in pipelines folder"
 
-    return render_template('status.html', msg=p)
+    return render_template('status.html', msg=msg)
 
 #########Route###########
 
