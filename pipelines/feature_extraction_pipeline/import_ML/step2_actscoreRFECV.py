@@ -20,13 +20,14 @@ from lib.statFunction import StatHandler
 actScoreInput=argv[1]
 metaData=argv[2]
 rankingthresh=int(argv[3])
-outputFile=argv[4]
+resultType=argv[4]
+outputFile=argv[5]
 
 if __name__ == "__main__":
     #Data loading
     df = pd.read_csv(actScoreInput, engine='c', index_col=0)
     meta_data = pd.read_csv(metaData)
-    longDD_samples, shortDD_samples = step1_actscoreDiff._LoadDiseaseDuration(df, meta_data)
+    longDD_samples, shortDD_samples = step1_actscoreDiff._LoadDiseaseDuration(df, meta_data, resultType)
     df = df[longDD_samples+shortDD_samples].dropna() # reform df with intersected samples
 
     # Make training samples

@@ -67,7 +67,7 @@ def config_yaml_creator():
     Making a form by parsing config.yaml
     """
 
-    # Frame Form
+    # Frame Form, could be added default setting for snakemake commandline
     class SnakeMakeForm(Form):
         pass;
 
@@ -102,7 +102,7 @@ def workflow_status():
     print(cmd)
     try:
         p = subprocess.check_output([cmd], shell=True)
-        msg = "Workflow has been completed: "+p
+        msg = "Workflow has been completed"
     except subprocess.CalledProcessError as e:
         msg = "Error occur in snakemake, please check log files in pipelines folder"
 
