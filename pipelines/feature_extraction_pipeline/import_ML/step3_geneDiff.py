@@ -39,13 +39,14 @@ actScoreInput=argv[1]
 geneExprInput=argv[2]
 metaData=argv[3]
 msigDBPath=argv[4]
-outputFile=argv[5]
+resultType=argv[5]
+outputFile=argv[6]
 
 if __name__ == "__main__":
 
     df_expr = pd.read_csv(geneExprInput, engine='c', index_col=0) # get expr
     meta_data = pd.read_csv(metaData) # metadata
-    longDD_samples, shortDD_samples = step1_actscoreDiff._LoadDiseaseDuration(df_expr, meta_data) # get samples for LDD SDD
+    longDD_samples, shortDD_samples = step1_actscoreDiff._LoadDiseaseDuration(df_expr, meta_data, resultType) # get samples for LDD SDD
 
     geneList = _extract_geneSignature(actScoreInput, msigDBPath) # Extracting genes
     print("Total extracted genes: "+ str(len(geneList)))

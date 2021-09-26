@@ -3,13 +3,14 @@
 
 #Output config
 DataOutput: /MainData/
-FeatureOutput: /Output/featureExtraction_by_Jun/
+FeatureOutput: /Output/featureExtraction_by_Jun/LongDiseaseDuration/
 
 #Meta and Database
 MetaInput: /MainData/annotation_metadata/EPIC_HCvB_metadata_baseline_updated-share.csv
 MsigDBInput: /MainData/MsigDB_list/msigdb.v7.4.entrez.gmt #GMT file
 
 # Parameters
+CompareType: long # healthy or long
 NormalizeData:
   path: /MainData/counts_normalized/rawFiles/
   type: vst # vst or norm

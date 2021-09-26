@@ -55,11 +55,12 @@ rule step1_activationScoreDiff:
     output:
         config["FeatureOutput"]+"{sample}.Ranksum.act.csv"
     params:
-        config["MetaInput"]
+        meta = config["MetaInput"],
+        compType = config["CompareType"]
     log:
         pipeline_path+"logs/step1_activationScoreDiff_{sample}_"+config["logID"]+".log"
     shell:
-        "python "+pipeline_path+"import_ML/step1_actscoreDiff.py {input} {params} {output} >& {log} "
+        "python "+pipeline_path+"import_ML/step1_actscoreDiff.py {input} {params.meta} {params.compType} {output} >& {log} "
 
 rule step2_activationScoreRFECV:
     input:
@@ -68,11 +69,12 @@ rule step2_activationScoreRFECV:
         config["FeatureOutput"]+"{sample}.Ranksum.RFECV.act.csv"
     params:
         meta = config["MetaInput"],
-        rankingThresh = config["RFECVrankingThreshold"]["step2"]
+        rankingThresh = config["RFECVrankingThreshold"]["step2"],
+        compType = config["CompareType"]
     log:
         pipeline_path+"logs/step2_activationScoreRFECV_{sample}_"+config["logID"]+".log"
     shell:
-        "python "+pipeline_path+"import_ML/step2_actscoreRFECV.py {input} {params.meta} {params.rankingThresh} {output} >& {log}"
+        "python "+pipeline_path+"import_ML/step2_actscoreRFECV.py {input} {params.meta} {params.rankingThresh} {params.compType} {output} >& {log}"
 
 rule step3_geneExprDiff:
     input:
@@ -82,11 +84,12 @@ rule step3_geneExprDiff:
     params:
         geneExpr = config["DataOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv",
         meta = config["MetaInput"],
-        msigDB = config["MsigDBInput"]
+        msigDB = config["MsigDBInput"],
+        compType = config["CompareType"]
     log:
         pipeline_path+"logs/step3_geneExprDiff_{sample}_"+config["logID"]+".log"
     shell:
-        "python "+pipeline_path+"import_ML/step3_geneDiff.py {input} {params.geneExpr} {params.meta} {params.msigDB} {output} >& {log}"
+        "python "+pipeline_path+"import_ML/step3_geneDiff.py {input} {params.geneExpr} {params.meta} {params.msigDB} {params.compType} {output} >& {log}"
 
 rule step4_geneRFECV:
     input:
@@ -95,8 +98,9 @@ rule step4_geneRFECV:
         config["FeatureOutput"]+"{sample}.Ranksum.RFECV.gene.result"
     params:
         meta = config["MetaInput"],
-        rankingThresh = config["RFECVrankingThreshold"]["step4"]
+        rankingThresh = config["RFECVrankingThreshold"]["step4"],
+        compType = config["CompareType"]
     log:
         pipeline_path+"logs/step4_geneRFECV_{sample}_"+config["logID"]+".log"
     shell:
-        "python "+pipeline_path+"import_ML/step2_actscoreRFECV.py {input} {params.meta} {params.rankingThresh} {output} >& {log}"
+        "python "+pipeline_path+"import_ML/step2_actscoreRFECV.py {input} {params.meta} {params.rankingThresh} {params.compType} {output} >& {log}"

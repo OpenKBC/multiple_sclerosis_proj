@@ -7,6 +7,8 @@ pip install -r requirements.txt
 ```
 
 #### Usage
+* Please change config.yaml for standalone usage
+
 ```shell
 snakemake --cores 3
 ```

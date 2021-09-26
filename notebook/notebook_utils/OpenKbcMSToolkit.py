@@ -57,8 +57,10 @@ class ExtractionToolkit(object):
         cont_df = dataframe.dropna(subset=[dataColname]) # continuous perspective dataframe
         cont_df[dataColname] = cont_df[dataColname].astype(float) # make float
 
-        threshValue = np.percentile(cont_df[dataColname].values.tolist(), threshold)
-        greater_samples = cont_df.loc[ cont_df[dataColname] >= threshValue, sampleColumn]
-        less_samples = cont_df.loc[ cont_df[dataColname] < threshValue, sampleColumn]
+        threshValue_below = np.percentile(cont_df[dataColname].values.tolist(), 100-threshold)
+        threshValue_above = np.percentile(cont_df[dataColname].values.tolist(), threshold)
+
+        greater_samples = cont_df.loc[ cont_df[dataColname] > threshValue_below, sampleColumn]
+        less_samples = cont_df.loc[ cont_df[dataColname] <= threshValue_above, sampleColumn]
         
         return (less_samples, greater_samples)
