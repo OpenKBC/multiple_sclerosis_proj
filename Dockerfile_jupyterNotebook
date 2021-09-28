@@ -1,4 +1,4 @@
-FROM jupyter/datascience-notebook
+FROM jupyter/base-notebook
 
 COPY notebook/installers/installer_Rpackage.R /installer_Rpackage.R
 COPY notebook/installers/requirements.txt /requirements.txt

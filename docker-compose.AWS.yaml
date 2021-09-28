@@ -1,0 +1,26 @@
+version: "3"
+services:
+  notebook: # Notebook
+    build:
+      context: .
+      dockerfile: Dockerfile_jupyterNotebook
+    volumes:
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/notebook_lib:/home/jovyan/work/notebook_lib
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/notebook_utils:/home/jovyan/work/notebook_utils
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/notebook_archive:/home/jovyan/work/notebook_archive
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/resultFiles:/home/jovyan/work/resultFiles
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/home/jovyan/MainData
+    ports:
+      - 8888:8888
+    container_name: notebook-container:v1.0.0
+
+  pipelines: # Pipelines
+    build:
+      context: .
+      dockerfile: Dockerfile_SnakemakePipeline
+    volumes:
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/resultFiles:/Output
+    ports:
+      - 80:5000
+    container_name: pipeline-container:v1.0.0
