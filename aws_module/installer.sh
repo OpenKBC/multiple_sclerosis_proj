@@ -2,8 +2,8 @@ storageType=$1 #storage type
 
 # Make usable disk
 sudo mkdir /home/ubuntu/MSProject
-sudo apt update && sudo apt install git
-sudo sudo apt-get install -y awscli
+sudo apt update && sudo apt install -y git
+sudo apt install -y awscli
 
 sudo mkfs -t ext4 /dev/nvme1n1 # format attached volume, attempt nvme format
 sudo mkfs -t ext4 /dev/xvdf # format attached volume(/dev/sdf), attempt nvme format

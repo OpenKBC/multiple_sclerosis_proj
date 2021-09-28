@@ -63,7 +63,11 @@ then
 else
     aws ec2 attach-volume --volume-id $VolumeID --instance-id $InstanceID --device /dev/sdf
 fi
-sleep 30 # sleep while AWS is loading
+
+echo "Cooling down starts. It takes more than 8 minutes.."
+
+## 7m, cooling down while AWS is loading and preparing resources
+sleep 500
 
 ## Running installer
 ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < installer.sh
