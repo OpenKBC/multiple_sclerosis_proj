@@ -1,4 +1,4 @@
-# Korean Bioinformatics Club Project for multiple sclerosis (Open-Project)
+# Multiple Sclerosis Project (Data analysis platform/archive)
 
 * Current members: Kicheol Kim, Junhee Yoon
 * Please, leave a message in **Discussions** tab if you have any question and requests
@@ -46,4 +46,3 @@ docker exec -it container_name_of_pipelines bash
 cd aws_module
 sh aws_module.sh t2.medium
 ```
-
