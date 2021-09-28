@@ -22,7 +22,7 @@
 ### Usage of docker container
 * 2 images are composing up for jupyter notebook and workflow. The workflow image does not have controller currently, so user needs to get inside to control it by using docker attach.
 
-![overview](README_resource/overview.png)
+![overview](README_resource/overview_recent.png)
 
 * Containers
 ```shell
