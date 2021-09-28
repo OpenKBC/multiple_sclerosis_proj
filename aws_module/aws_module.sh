@@ -74,6 +74,9 @@ scp -i MSplatform-key.pem credentials ubuntu@$ip_addr:/home/ubuntu/.aws
 ## S3 sync from S3 project bucket
 ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < s3Sync.sh
 
+## docker-compose setup
+ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < docker_setup.sh
+
 #### Running something here
 #### Running something here
 
