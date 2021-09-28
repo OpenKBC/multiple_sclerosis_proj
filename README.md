@@ -34,9 +34,16 @@ docker-compose up # composing up
 # Access jupyter notebook
 http://localhost:8888/token_number
 ```
+
 * Workflow container
 ```shell
 #Not prepared controller yet, please get into the container to run snakemake workflow separately
 docker exec -it container_name_of_pipelines bash
+```
+
+* AWS module
+```shell
+cd aws_module
+sh aws_module.sh t2.medium
 ```
 

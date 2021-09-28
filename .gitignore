@@ -1,5 +1,7 @@
 # s3 entire data
 data/
+*.pem
+credentials
 
 # MAC
 .DS_Store
