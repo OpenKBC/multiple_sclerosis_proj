@@ -1,6 +1,6 @@
 FROM snakemake/snakemake
 
-COPY notebook/installers/installer_Rpackage.R /installer_Rpackage.R
+COPY pipelines/feature_extraction_pipeline/installer_Rpackage.R /installer_Rpackage.R
 COPY pipelines/ /pipelines
 
 RUN apt-get update && apt-get install -y r-base
