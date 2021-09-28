@@ -3,6 +3,11 @@ data/
 *.pem
 credentials
 
+# AWS module
+InstanceLaunch-Info
+InstanceVolume-Info
+PublicIP
+
 # MAC
 .DS_Store
 

@@ -2,6 +2,7 @@
 * This module supports to run the project codes, pipelines and analysis by launching AWS EC2 instance, currently, this module generates an EC2 instance in AWS by using github code and project S3 data. (Limit: below m5.4xlarge). The EC2 is launched with 200G volumes total initally(default).
 * Please contact to members to have credentials to use this service.
 * It contains AMI mapping.json for modifying initial storage size
+* It takes some minutes(more than 10min) for launching EC2 instance
 
 ### AWS AMI description
 ```

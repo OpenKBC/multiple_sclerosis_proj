@@ -12,7 +12,7 @@ services:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/home/jovyan/MainData
     ports:
       - 8888:8888
-    container_name: notebook-container:v1.0.0
+    container_name: notebookContainer
 
   pipelines: # Pipelines
     build:
@@ -23,4 +23,4 @@ services:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/resultFiles:/Output
     ports:
       - 80:5000
-    container_name: pipeline-container:v1.0.0
+    container_name: pipelineContainer
