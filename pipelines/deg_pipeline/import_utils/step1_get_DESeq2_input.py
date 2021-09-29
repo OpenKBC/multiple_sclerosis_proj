@@ -4,8 +4,9 @@ __maintainer__ = "Junhee Yoon"
 __email__ = "swiri021@gmail.com"
 
 """
-Description: This code generates DESeq2 input files from raw files, currently, it is supporting to categorized column
+Description: Copy from utils directory
 Example: python get_DESeq2_input_from_files.py -p inputpath/ -m meta.csv -s HCVB_ID -v DiseaseCourse -x RR -y CIS -c CD4 -o outputpath/outputfile
+It needs some changes because of docker memory issue
 """
 
 import glob
@@ -39,13 +40,15 @@ parser.add_argument('-y','--cond2', type=str, dest='cond2', required=True,\
 # Immune cell type
 parser.add_argument('-c','--ctype', type=str, dest='celltype', required=True,\
      choices=['CD4','CD8','CD14'],help='Cell type for extraction, default = CD8')
-# Output file name
-parser.add_argument('-o','--output', type=str, dest='output', required=True, \
+# Output file name (Modified for snakemake)
+parser.add_argument('-o','--outputExpr', type=str, dest='outputExpr', required=True, \
+     help='Output file path and name')
+parser.add_argument('-r','--outputMeta', type=str, dest='outputMeta', required=True, \
      help='Output file path and name')
 args = parser.parse_args()
 
 if __name__ == "__main__":
-    COUNT_PATH = args.filepath # DIR path
+    COUNT_PATH = args.filepath+"/" # DIR path
     filelist = glob.glob(COUNT_PATH+"*-"+args.celltype+"."+args.filetype+".results") # File path
     filelist = [os.path.basename(cursor) for cursor in filelist] # Extracting base file name
     sampleName = dataHandler.get_samplename(filelist)
@@ -57,7 +60,7 @@ if __name__ == "__main__":
         result_arr.append(sampleValues)
     result_df = pd.concat(result_arr, axis=1)
     result_df.columns = sampleName # Change column name by using sample names
-
+    
     metadata = pd.read_csv(args.metafile) # read meta data
     assert args.sampcolumn in metadata.columns.tolist(), "Cannot find column name in meta" # Check
     assert args.condcolumn in metadata.columns.tolist(), "Cannot find column name in meta"
@@ -70,5 +73,5 @@ if __name__ == "__main__":
     meta_result_df = meta_result_df.loc[overlapped_samples]
     result_df = result_df[overlapped_samples]
 
-    result_df.astype(int).to_csv(args.output+"_expr.csv") # Output
-    meta_result_df.to_csv(args.output+"_meta.csv")
+    result_df.astype(int).to_csv(args.outputExpr) # Output
+    meta_result_df.to_csv(args.outputMeta)

@@ -1,0 +1,46 @@
+__author__ = "Junhee Yoon"
+__version__ = "1.0.0"
+__maintainer__ = "Junhee Yoon"
+__email__ = "swiri021@gmail.com"
+
+# Base DEG pipeline by using DESeq2, it could expand to more functions by using this workflow
+
+# For manual running, please use this one
+#configfile: "config.yaml"
+
+pipeline_path = '/pipelines/deg_pipeline/'
+SAMPLES = ['CD4','CD8','CD14']
+
+rule all:
+    input:
+        expand(config["OutputFolder"]+"{cell}_DEG.result",  cell=['CD4','CD8','CD14'])
+
+rule get_matrix:
+    input:
+        config["InputFolder"]
+    output:
+        expr = config["OutputFolder"]+"sample_{sample}_expr.csv",
+        meta = config["OutputFolder"]+"sample_{sample}_meta.csv"
+    params:
+        metaData = config["MetaFile"],
+        samCol = config["SampleColumnName"],
+        CondCol = config["CondColumnName"],
+        cond1 = config["Condition1"],
+        cond2 = config["Condition2"]
+    resources:
+        mem_mb=4000
+    log:
+        pipeline_path+"logs/step1_get_matrix_{sample}_"+config["logID"]+".log"
+    shell:
+        "python "+pipeline_path+"import_utils/step1_get_DESeq2_input.py -p {input} -m {params.metaData} -s {params.samCol} -c {wildcards.sample} -v {params.CondCol} -x {params.cond1} -y {params.cond2} -o {output.expr} -r {output.meta} >& {log}"
+
+rule calculate_DEG:
+    input:
+        expr = config["OutputFolder"]+"sample_{sample}_expr.csv",
+        meta = config["OutputFolder"]+"sample_{sample}_meta.csv"
+    output:
+        config["OutputFolder"]+"{sample}_DEG.result"
+    log:
+        pipeline_path+"logs/step2_cal_DEG_{sample}_"+config["logID"]+".log"
+    shell:
+        "Rscript "+pipeline_path+"import_utils/step2_DESeq2_calculator.R {input.expr} {input.meta} {output} >& {log}"

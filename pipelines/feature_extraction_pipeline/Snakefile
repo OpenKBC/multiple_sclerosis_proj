@@ -6,10 +6,9 @@ __email__ = "swiri021@gmail.com"
 # Needs gene normalization step with DESeq at the first
 
 # For manual running, please use this one
-#configfile: "config.yaml"
+# configfile: "config.yaml"
 
 pipeline_path = '/pipelines/feature_extraction_pipeline/'
-#pipeline_path = ''
 SAMPLES = ['CD4','CD8','CD14']
 
 rule all:

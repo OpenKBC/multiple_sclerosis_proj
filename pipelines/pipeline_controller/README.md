@@ -5,7 +5,7 @@ This is pipeline controller(SnakeMake) for pipeline container by using Flask, Ji
 
 ### Requirements
 - The controller should be located to same root folder with pipeline folders
-- All pipelines should have same snakefile name(Snakemake) and configuration name(config.yaml)
+- All pipelines should have same snakefile name(Snakemake) and configuration(config.yaml)
 - Structure example:
 ```
 pipelines/(root)

@@ -16,6 +16,10 @@ services:
   pipelines: # Pipelines
     build:
       dockerfile: Dockerfile_SnakemakePipeline
+    deploy:
+      resources:
+        limits:
+          memory: 4000m
     volumes:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/MainData
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/resultFiles:/Output

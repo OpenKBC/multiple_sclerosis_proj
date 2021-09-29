@@ -18,6 +18,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_SnakemakePipeline
+    deploy:
+      resources:
+        limits:
+          memory: 4000m
     volumes:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/resultFiles:/Output
