@@ -24,6 +24,7 @@ sh aws_module.sh t2.micro #with instance type(t2.micro for testing, maximum : m5
 * This version has a problem with docker installment in AWS, and docker needs to be installed manually
 ```
 ssh -i MSplatform-key.pem ubuntu@IP_ADDRESS
+echo $(docker exec -it notebookContainer bash -c 'jupyter notebook list' | grep http | cut -f1 -d ' ') # If the case you forgot notebook token
 ```
 
 ### File information
