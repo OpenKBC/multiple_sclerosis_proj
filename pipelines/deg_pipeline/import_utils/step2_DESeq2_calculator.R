@@ -6,7 +6,7 @@
 # metafile = "./sample_CD4_meta.csv"
 # outputfile = "./CD4_DEG.csv"
 
-library(tidyverse)
+#library(tidyverse)
 library(DESeq2)
 library(tximport)
 

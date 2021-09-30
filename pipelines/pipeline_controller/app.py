@@ -24,10 +24,33 @@ from wtforms.validators import Required
 from flask_wtf import Form
 from wtforms import TextField, SubmitField
 
+# Celery running
+import json
+from celery import Celery, current_task
+from celery.result import AsyncResult
+from subprocess import Popen, PIPE
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'swiri021swiri021' # CSRF key
-Bootstrap(app) # set Bootstrap
+
+## Celery setting
+app.config.update(
+    CELERY_BROKER_URL='redis://localhost:6379', # Redis docker
+    CELERY_RESULT_BACKEND='redis://localhost:6379'
+)
+def make_celery(app):
+    celery = Celery(
+        app.import_name,
+        backend=app.config['CELERY_RESULT_BACKEND'],
+        broker=app.config['CELERY_BROKER_URL']
+    )
+    celery.conf.update(app.config)
+    return celery
+celery = make_celery(app)
+
+# set Bootstrap
+Bootstrap(app)
 
 # setting Navigation Bar
 nav = Nav(app)
@@ -91,25 +114,42 @@ def config_yaml_creator():
 
     return render_template('config_yaml_creator.html', form=form)
 
+@celery.task()
+def workflow_running(pipeline_path, yaml_file):
+    print(pipeline_path, yaml_file)
+
+    proc = Popen(['snakemake', '--snakefile', pipeline_path+'Snakefile', '--cores', str(3), '--configfile', yaml_file], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    # It is not working with snakemake
+    while True:
+        line = proc.stdout.readline()
+        if not line:
+            break
+        print(str(line))
+        current_task.update_state(state='PROGRESS', meta={'msg': str(line)})
+    return 999
+
+@app.route("/workflow_progress")
+def workflow_progress():
+    print("WORKFLOW RETURN")
+    jobid = request.values.get('jobid')
+    if jobid:
+        job = AsyncResult(jobid, app=celery)
+    print(job.state)
+    if job.state == 'PROGRESS':
+        return json.dumps(dict( state=job.state, msg=job.result['msg'],))
+    elif job.state == 'SUCCESS':
+        return json.dumps(dict( state=job.state, msg="done",))
+    return '{}'
+
 @app.route("/status")
 def workflow_status():
-
     pipeline_path = session.get('selected_pipeline', None) # Pipeline path
     yaml_file = session.get('yaml_output', None) # yaml file
 
-    ## Running snakemake
-    cmd = 'snakemake --snakefile %s --cores 3 --configfile %s'%(pipeline_path+"Snakefile",yaml_file)
-    print(cmd)
-    try:
-        p = subprocess.check_output([cmd], shell=True)
-        msg = "Workflow has been completed"
-    except subprocess.CalledProcessError as e:
-        msg = "Error occur in snakemake, please check log files in pipelines folder"
-
-    return render_template('status.html', msg=msg)
+    job = workflow_running.delay(pipeline_path, yaml_file)
+    return render_template('progress.html', JOBID=job.id)
 
 #########Route###########
-
 
 # Parsing function for yaml data, only work 2 layer nested yaml file
 def _parsing_yamlFile(workflow_path):

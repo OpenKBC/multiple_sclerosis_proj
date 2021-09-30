@@ -5,3 +5,5 @@ flask==2.0.1
 Flask-WTF==0.15.1
 Flask-Bootstrap==3.3.7.1
 flask-nav==0.6
+celery==5.1.2
+redis==3.5.3

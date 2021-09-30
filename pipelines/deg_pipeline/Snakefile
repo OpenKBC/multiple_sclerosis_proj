@@ -6,9 +6,12 @@ __email__ = "swiri021@gmail.com"
 # Base DEG pipeline by using DESeq2, it could expand to more functions by using this workflow
 
 # For manual running, please use this one
-#configfile: "config.yaml"
+# configfile: "config.yaml" 
+# pipeline_path = '/Users/junheeyun/OpenKBC/multiple_sclerosis_proj/pipelines/deg_pipeline/'
+# 
 
 pipeline_path = '/pipelines/deg_pipeline/'
+
 SAMPLES = ['CD4','CD8','CD14']
 
 rule all:
