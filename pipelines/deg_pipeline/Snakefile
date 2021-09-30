@@ -8,7 +8,8 @@ __email__ = "swiri021@gmail.com"
 # For manual running, please use this one
 #configfile: "config.yaml"
 
-pipeline_path = '/pipelines/deg_pipeline/'
+#pipeline_path = '/pipelines/deg_pipeline/'
+pipeline_path = '/Users/junheeyun/OpenKBC/multiple_sclerosis_proj/pipelines/deg_pipeline/'
 SAMPLES = ['CD4','CD8','CD14']
 
 rule all:
