@@ -7,8 +7,11 @@ __email__ = "swiri021@gmail.com"
 
 # For manual running, please use this one
 # configfile: "config.yaml"
+# pipeline_path = '/Users/junheeyun/OpenKBC/multiple_sclerosis_proj/pipelines/feature_extraction_pipeline/'
+#
 
 pipeline_path = '/pipelines/feature_extraction_pipeline/'
+
 SAMPLES = ['CD4','CD8','CD14']
 
 rule all:

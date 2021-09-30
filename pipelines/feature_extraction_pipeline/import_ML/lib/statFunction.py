@@ -6,7 +6,6 @@ __email__ = "swiri021@gmail.com"
 """
 Description: Repeative functions in notebook
 """
-import matplotlib.pyplot as plt
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedKFold
 from sklearn.feature_selection import RFECV
