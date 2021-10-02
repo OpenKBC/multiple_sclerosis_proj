@@ -36,8 +36,8 @@ app.config['SECRET_KEY'] = 'swiri021swiri021' # CSRF key
 
 ## Celery setting
 app.config.update(
-    CELERY_BROKER_URL='redis://localhost:6379', # Redis docker
-    CELERY_RESULT_BACKEND='redis://localhost:6379'
+    CELERY_BROKER_URL='redis://redis:6379/0', # Redis docker
+    CELERY_RESULT_BACKEND='redis://redis:6379/0'
 )
 def make_celery(app):
     celery = Celery(

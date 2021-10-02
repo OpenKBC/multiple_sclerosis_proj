@@ -32,6 +32,7 @@ echo $(docker exec -it notebookContainer bash -c 'jupyter notebook list' | grep 
 * InstanceVolume-Info: This file contains volume information you launched
 * PublicIP: This file contains public IP address of EC2 you launched
 * MSplatform-key.pem: This is the key for ssh'ing to EC2
+* mapping_dockerAMI.json: This mapping file is used for modifying configuration of AMI image
 
 ### Services
 ```

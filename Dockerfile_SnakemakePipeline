@@ -1,14 +1,11 @@
 FROM snakemake/snakemake
 
-COPY pipelines/feature_extraction_pipeline/installer_Rpackage.R /installer_Rpackage.R
 COPY pipelines/ /pipelines
 
-RUN apt-get update && apt-get install -y r-base
-RUN Rscript /installer_Rpackage.R
-
 # Should solve calling all requirements in saperate pipeline folders
-RUN pip install -r /pipelines/feature_extraction_pipeline/requirements.txt
-RUN pip install -r /pipelines/pipeline_controller/requirements.txt
+RUN apt-get update && apt-get install -y r-base
+RUN Rscript /pipelines/installer_Rpackage.R
+RUN pip install -r /pipelines/requirements.txt
 
 WORKDIR /pipelines/pipeline_controller/
 ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:5000", \

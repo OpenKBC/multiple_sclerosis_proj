@@ -1,7 +1,10 @@
 ## Pipeline Controller
 This is pipeline controller(SnakeMake) for pipeline container by using Flask, Jinja2 and Bootstrap. This controller provides config.yaml form for executing snakemake and it will execute the workflow after submission.
 
-**Current version(v1.0.0) does not have loading spinner, please wait for browser spinne instead of itr**
+### Version history
+* version(v1.0.1) imported celery-redis for workers and communication, **NOT WORKING YET**
+
+* version(v1.0.0) does not have loading spinner, please wait for browser spinne instead of it
 
 ### Requirements
 - The controller should be located to same root folder with pipeline folders
@@ -13,29 +16,20 @@ pipelines/(root)
 |--Pipeline1/
 |--Pipeline2/
 ```
-- Install requirements.txt
+- Install requirements
 
 ```
-pip install -r requirements.txt
+pip install -r pipeline_controller/requirements.txt
+Rscript pipeline_controller/installer_Rpackage.R
 ```
 
 ### Usage
-
-- Flask development
-```
-export FLASK_APP=app
-flask run
-```
-- Docker
-```
-docker-compose up
-```
-- On browser(after docker-compose up)
-```
-http://localhost:80/
-```
+* Using docker-compose is highly recommended, but you can run pipeline manually by modifying snakefile and launching flask, celery in local
+* After ```docker-compose up```, go to the browser and http://localhost for pipeline, http://localhost:8888/?token= for jupyter notebook
+* Don't use docker-compose.AWS.yaml in local
 
 ### Importing pipeline
 - Create pipeline folder inside root directory
 - Make snakefile and check all the path is **absolute path**
+- For example, ```pipeline_path = '/pipelines/deg_pipeline/'``` pipeline_path always has to be absolute path in docker **(NOT LOCAL PATH)**
 - Make **config.yaml** for template

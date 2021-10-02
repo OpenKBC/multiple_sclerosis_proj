@@ -2,6 +2,7 @@ version: "3"
 services:
   notebook: # Notebook
     build:
+      context: .
       dockerfile: Dockerfile_jupyterNotebook
     volumes:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_lib:/home/jovyan/work/notebook_lib
@@ -14,15 +15,38 @@ services:
     container_name: notebookContainer
 
   pipelines: # Pipelines
-    build:
-      dockerfile: Dockerfile_SnakemakePipeline
+    image: snakemake/snakemake
     deploy:
       resources:
         limits:
           memory: 4000m
     volumes:
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/pipelines:/pipelines
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/MainData
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/resultFiles:/Output
     ports:
       - 80:5000
+    depends_on:
+      - redis
     container_name: pipelineContainer
+    working_dir: /pipelines/pipeline_controller
+    command: bash -c "apt-get update && apt-get install -y r-base && apt install build-essential && Rscript installer_Rpackage.R && pip install -r requirements.txt && gunicorn --bind 0.0.0.0:5000 --workers 2 --threads 4 --worker-class gthread connector:app"
+
+  redis: # redis
+    image: "redis:alpine"
+    command: redis-server
+    ports:
+      - "6379:6379"
+    container_name: redisServer
+
+  celery: # celery
+    image: snakemake/snakemake
+    volumes:
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/pipelines/pipeline_controller:/pipelines/pipeline_controller
+    working_dir: /pipelines/pipeline_controller/
+    #command: bash -c "apt-get update && apt-get install -y r-base && apt install build-essential && Rscript installer_Rpackage.R && pip install -r requirements.txt && celery -A app.celery worker --loglevel=info"
+    command: bash -c "pip install -r requirements.txt && celery -A app.celery worker --loglevel=info"
+    depends_on:
+      - redis
+      - pipelines
+    container_name: celeryContainer
