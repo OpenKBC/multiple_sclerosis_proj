@@ -35,7 +35,7 @@ AvailabilityZone=$(echo ${element/,/} | xargs) # Last cleanup of Instance ID str
 echo "Instance AZ: $AvailabilityZone"
 
 #echo "Check ec2 status before create volume"
-sh aws_check_status.sh $InstanceID ec2 # Check EC2 running
+sh utils/aws_check_status.sh $InstanceID ec2 # Check EC2 running
 
 ip_addr=$(aws ec2 describe-instances --instance-ids $InstanceID --query 'Reservations[0].Instances[0].PublicIpAddress') # get public IP for EC2
 ip_addr="${ip_addr%\"}" # Remove double quotes from string
@@ -70,16 +70,16 @@ echo "Cooling down starts. It takes more than 8 minutes.."
 sleep 500
 
 ## Running installer
-ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < utils/installer.sh
+ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/installer.sh
 
 ## Moving credentials to ec2 for s3 connection
-scp -i MSplatform-key.pem credentials ubuntu@$ip_addr:/home/ubuntu/.aws
+scp -i MSplatform-key.pem -o StrictHostKeyChecking=no credentials ubuntu@$ip_addr:/home/ubuntu/.aws
 
 ## S3 sync from S3 project bucket
-ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < utils/s3Sync.sh
+ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/s3Sync.sh
 
 ## docker-compose setup
-ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < utils/docker_setup.sh
+ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/docker_setup.sh
 
 #### Running something here
 #### Running something here

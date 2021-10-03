@@ -35,10 +35,10 @@ services:
     command: conda run -n pipeline_controller_base gunicorn --bind 0.0.0.0:5000 --workers 2 --threads 4 --worker-class gthread connector:app
 
   redis: # redis
-    image: "redis:alpine"
+    image: redis:alpine
     command: redis-server
     ports:
-      - "6379:6379"
+      - 6379:6379
     container_name: redisServer
 
   celery: # celery

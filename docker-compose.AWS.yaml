@@ -23,24 +23,35 @@ services:
         limits:
           memory: 4000m
     volumes:
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/pipelines:/pipelines
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/resultFiles:/Output
     ports:
       - 80:5000
-    links:
+    depends_on:
       - redis
-      - celery
     container_name: pipelineContainer
-  
-  redis:
-    image: "redis:alpine"
+    working_dir: /pipelines/pipeline_controller
+    command: conda run -n pipeline_controller_base gunicorn --bind 0.0.0.0:5000 --workers 2 --threads 4 --worker-class gthread connector:app
+
+  redis: # redis
+    image: redis:alpine
     command: redis-server
     ports:
-      - "6379:6379"
+      - 6379:6379
+    container_name: redisServer
 
-  celery:
-    build: .
-    command: "celery -A app.celery worker --loglevel=info"
-    user: nobody
-    links:
-        - redis
+  celery: # celery
+    build:
+      context: .
+      dockerfile: Dockerfile_SnakemakePipeline
+    volumes:
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/pipelines:/pipelines
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/resultFiles:/Output
+    working_dir: /pipelines/pipeline_controller/
+    command: conda run -n pipeline_controller_base celery -A app.celery worker --loglevel=info
+    depends_on:
+      - redis
+      - pipelines
+    container_name: celeryContainer
