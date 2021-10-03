@@ -15,7 +15,9 @@ services:
     container_name: notebookContainer
 
   pipelines: # Pipelines
-    image: snakemake/snakemake
+    build:
+      context: .
+      dockerfile: Dockerfile_SnakemakePipeline
     deploy:
       resources:
         limits:
@@ -30,7 +32,7 @@ services:
       - redis
     container_name: pipelineContainer
     working_dir: /pipelines/pipeline_controller
-    command: bash -c "apt-get update && apt-get install -y r-base && apt install build-essential && Rscript installer_Rpackage.R && pip install -r requirements.txt && gunicorn --bind 0.0.0.0:5000 --workers 2 --threads 4 --worker-class gthread connector:app"
+    command: conda run -n pipeline_controller_base gunicorn --bind 0.0.0.0:5000 --workers 2 --threads 4 --worker-class gthread connector:app
 
   redis: # redis
     image: "redis:alpine"
@@ -40,12 +42,15 @@ services:
     container_name: redisServer
 
   celery: # celery
-    image: snakemake/snakemake
+    build:
+      context: .
+      dockerfile: Dockerfile_SnakemakePipeline
     volumes:
-      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/pipelines/pipeline_controller:/pipelines/pipeline_controller
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/pipelines:/pipelines
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/MainData
+      - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/resultFiles:/Output
     working_dir: /pipelines/pipeline_controller/
-    #command: bash -c "apt-get update && apt-get install -y r-base && apt install build-essential && Rscript installer_Rpackage.R && pip install -r requirements.txt && celery -A app.celery worker --loglevel=info"
-    command: bash -c "pip install -r requirements.txt && celery -A app.celery worker --loglevel=info"
+    command: conda run -n pipeline_controller_base celery -A app.celery worker --loglevel=info
     depends_on:
       - redis
       - pipelines

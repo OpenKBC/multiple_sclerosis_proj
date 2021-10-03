@@ -8,8 +8,8 @@
 #### Requirement
 * Naming of Input file should be count_vst_cellType.csv ex) count_vst_CD4.csv, count_vst_CD8.csv 
 ```shell
-pip install -r requirements.txt
-Rscript installer_Rpackage.R
+pip install -r ../pipelines/pipeline_contoller/requirements.txt
+Rscript ../pipelines/pipeline_contoller/installer_Rpackage.R
 ```
 
 #### Usage

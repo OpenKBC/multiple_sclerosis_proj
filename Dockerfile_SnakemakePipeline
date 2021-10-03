@@ -1,15 +1,26 @@
-FROM snakemake/snakemake
+FROM continuumio/miniconda
 
-COPY pipelines/ /pipelines
+COPY pipelines/pipeline_controller/requirements.txt .
+COPY pipelines/pipeline_controller/installer_Rpackage.R .
+
+RUN conda create -n pipeline_controller_base python=3.8.2 R=3.6
+SHELL ["conda", "run", "-n", "pipeline_controller_base", "/bin/bash", "-c"]
+
+RUN pip install -r requirements.txt
+RUN Rscript installer_Rpackage.R
+
+RUN python -c "import flask"
+
+#FROM snakemake/snakemake
+
+#COPY pipelines/pipeline_controller/installer_Rpackage.R .
+#COPY pipelines/pipeline_controller/requirements.txt .
 
 # Should solve calling all requirements in saperate pipeline folders
-RUN apt-get update && apt-get install -y r-base
-RUN Rscript /pipelines/installer_Rpackage.R
-RUN pip install -r /pipelines/requirements.txt
+#RUN apt-get update && apt-get install -y r-base
+#RUN Rscript ./installer_Rpackage.R
+#RUN pip install -r ./requirements.txt
 
-WORKDIR /pipelines/pipeline_controller/
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:5000", \
-"--workers", "2", "--threads", "4", "--worker-class", "gthread", "connector:app"]
-
-#WORKDIR /pipelines/feature_extraction_pipeline
-#ENTRYPOINT [ "snakemake", "--cores", "3" ]
+#WORKDIR /pipelines/pipeline_controller/
+#ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:5000", \
+#"--workers", "2", "--threads", "4", "--worker-class", "gthread", "connector:app"]

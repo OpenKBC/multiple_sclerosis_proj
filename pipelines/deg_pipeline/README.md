@@ -7,8 +7,8 @@
 
 #### Requirement
 ```shell
-pip install -r requirements.txt
-Rscript installer_Rpackage.R
+pip install -r ../pipelines/pipeline_contoller/requirements.txt
+Rscript ../pipelines/pipeline_contoller/installer_Rpackage.R
 ```
 
 #### Usage
