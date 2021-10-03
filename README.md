@@ -2,7 +2,8 @@
 
 * Current members: Kicheol Kim, Junhee Yoon
 * Please, leave a message in **Discussions** tab if you have any question and requests
-* Please use docker image to analyze the data. Our aws-cli module will be developed soon, please ask to members to get the data currently.
+* Please use docker image to analyze the data. AWS module is ready and Please ask to members for getting auth f AWS is needed to analze data.
+* Our data is living in S3 bucket
 
 ### Goal
 * Finding potential biomarkers and therapeutic target for helping multiple sclerosis patients, **reference**: [Cell type-specific transcriptomics identifies neddylation as a novel therapeutic target in multiple sclerosis](https://pubmed.ncbi.nlm.nih.gov/33374005/)
@@ -26,7 +27,7 @@
 
 * Containers
 ```shell
-docker-compose up # composing up
+docker-compose -f docker-compose.yaml up --build # composing up
 ```
 
 * Jupyter notebook

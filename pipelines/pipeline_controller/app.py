@@ -36,8 +36,8 @@ app.config['SECRET_KEY'] = 'swiri021swiri021' # CSRF key
 
 ## Celery setting
 app.config.update(
-    CELERY_BROKER_URL='redis://localhost:6379', # Redis docker
-    CELERY_RESULT_BACKEND='redis://localhost:6379'
+    CELERY_BROKER_URL='redis://redis:6379/0', # Redis docker
+    CELERY_RESULT_BACKEND='redis://redis:6379/0'
 )
 def make_celery(app):
     celery = Celery(
@@ -116,9 +116,8 @@ def config_yaml_creator():
 
 @celery.task()
 def workflow_running(pipeline_path, yaml_file):
-    print(pipeline_path, yaml_file)
-
-    proc = Popen(['snakemake', '--snakefile', pipeline_path+'Snakefile', '--cores', str(3), '--configfile', yaml_file], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    proc = Popen(['conda', 'run', '-n', 'pipeline_controller_base', 'snakemake', '--snakefile', pipeline_path+'Snakefile',\
+        '--cores', str(3), '--configfile', yaml_file], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     # It is not working with snakemake
     while True:
         line = proc.stdout.readline()
@@ -132,6 +131,7 @@ def workflow_running(pipeline_path, yaml_file):
 def workflow_progress():
     print("WORKFLOW RETURN")
     jobid = request.values.get('jobid')
+    print(jobid)
     if jobid:
         job = AsyncResult(jobid, app=celery)
     print(job.state)

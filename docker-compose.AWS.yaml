@@ -27,4 +27,20 @@ services:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/resultFiles:/Output
     ports:
       - 80:5000
+    links:
+      - redis
+      - celery
     container_name: pipelineContainer
+  
+  redis:
+    image: "redis:alpine"
+    command: redis-server
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: .
+    command: "celery -A app.celery worker --loglevel=info"
+    user: nobody
+    links:
+        - redis

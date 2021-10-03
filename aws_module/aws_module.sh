@@ -54,7 +54,7 @@ echo "Volume ID: $VolumeID"
 
 ## Volume attach
 echo "Check ebs status before attach-volume"
-sh aws_check_status.sh $VolumeID ebs # Check EBS availability
+sh utils/aws_check_status.sh $VolumeID ebs # Check EBS availability
 if [ "$2" == "m5."* ];
 then
     echo "NVME volume"
@@ -70,16 +70,16 @@ echo "Cooling down starts. It takes more than 8 minutes.."
 sleep 500
 
 ## Running installer
-ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < installer.sh
+ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < utils/installer.sh
 
 ## Moving credentials to ec2 for s3 connection
 scp -i MSplatform-key.pem credentials ubuntu@$ip_addr:/home/ubuntu/.aws
 
 ## S3 sync from S3 project bucket
-ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < s3Sync.sh
+ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < utils/s3Sync.sh
 
 ## docker-compose setup
-ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < docker_setup.sh
+ssh -i MSplatform-key.pem ubuntu@$ip_addr 'bash -s' < utils/docker_setup.sh
 
 #### Running something here
 #### Running something here
