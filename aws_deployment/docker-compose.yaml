@@ -1,0 +1,57 @@
+version: "3"
+services:
+  notebook: # Notebook
+    build:
+      context: .
+      dockerfile: Dockerfile_jupyterNotebook
+    volumes:
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/notebook_lib:/home/jovyan/work/notebook_lib
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/notebook_utils:/home/jovyan/work/notebook_utils
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/notebook_archive:/home/jovyan/work/notebook_archive
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/resultFiles:/home/jovyan/work/resultFiles
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/home/jovyan/MainData
+    ports:
+      - 8888:8888
+    container_name: notebookContainer
+
+  pipelines: # Pipelines
+    build:
+      context: .
+      dockerfile: Dockerfile_SnakemakePipeline
+    deploy:
+      resources:
+        limits:
+          memory: 4000m
+    volumes:
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/pipelines:/pipelines
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/resultFiles:/Output
+    ports:
+      - 80:5000
+    depends_on:
+      - redis
+    container_name: pipelineContainer
+    working_dir: /pipelines/pipeline_controller
+    command: conda run -n pipeline_controller_base gunicorn --bind 0.0.0.0:5000 --workers 2 --threads 4 --worker-class gthread connector:app
+
+  redis: # redis
+    image: redis:alpine
+    command: redis-server
+    ports:
+      - 6379:6379
+    container_name: redisServer
+
+  celery: # celery
+    build:
+      context: .
+      dockerfile: Dockerfile_SnakemakePipeline
+    volumes:
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/pipelines:/pipelines
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData
+      - /home/ubuntu/MSProject/multiple_sclerosis_proj/resultFiles:/Output
+    working_dir: /pipelines/pipeline_controller/
+    command: conda run -n pipeline_controller_base celery -A app.celery worker --loglevel=info
+    depends_on:
+      - redis
+      - pipelines
+    container_name: celeryContainer

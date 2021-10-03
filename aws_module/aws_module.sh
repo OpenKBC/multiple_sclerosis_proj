@@ -81,6 +81,8 @@ ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' 
 ## docker-compose setup
 ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/docker_setup.sh
 
+echo "AWS module processed.."
+
 #### Running something here
 #### Running something here
 
