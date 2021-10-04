@@ -47,6 +47,9 @@ http://localhost/
 
 * AWS module
 ```shell
-cd aws_module
-sh aws_module.sh t2.medium
+cd aws_module/ec2_deployment/
+sh aws_module.sh t2.medium # Deploying EC2
+
+cd aws_module/sageMaker_deployment/
+sh sagemaker_module.sh ml.t2.medium test-notebook # Deploying sagemaker instance
 ```
