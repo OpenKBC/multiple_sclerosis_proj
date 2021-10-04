@@ -2,8 +2,8 @@ version: "3"
 services:
   notebook: # Notebook
     build:
-      context: .
-      dockerfile: Dockerfile_jupyterNotebook
+      context: ./notebook
+    #image: swiri021/openkbc_msproject:notebookcontainer1
     volumes:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_lib:/home/jovyan/work/notebook_lib
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_utils:/home/jovyan/work/notebook_utils
@@ -16,8 +16,8 @@ services:
 
   pipelines: # Pipelines
     build:
-      context: .
-      dockerfile: Dockerfile_SnakemakePipeline
+      context: ./pipelines
+    #image: swiri021/openkbc_msproject:pipelinecontainer1
     deploy:
       resources:
         limits:
@@ -43,8 +43,8 @@ services:
 
   celery: # celery
     build:
-      context: .
-      dockerfile: Dockerfile_SnakemakePipeline
+      context: ./pipelines
+    #image: swiri021/openkbc_msproject:celerycontainer1
     volumes:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/pipelines:/pipelines
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/MainData

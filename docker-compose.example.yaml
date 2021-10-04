@@ -1,0 +1,54 @@
+version: "3"
+services:
+  notebook: # Notebook
+    build:
+      image: swiri021/openkbc_msproject:notebookcontainer1
+    volumes:
+      - your_library_path:/home/jovyan/work/notebook_lib # Anything you want to import, but you can set up our codes from the github
+      - your_utils_path:/home/jovyan/work/notebook_utils
+      - your_archive_path:/home/jovyan/work/notebook_archive
+      - your_resultFile_path:/home/jovyan/work/resultFiles
+      - s3data_path_in_your_local:/home/jovyan/MainData # S3 data from our bucket
+    ports:
+      - 8888:8888
+    container_name: notebookContainer
+
+  pipelines: # Pipelines
+    build:
+      image: swiri021/openkbc_msproject:pipelinecontainer1
+    deploy:
+      resources:
+        limits:
+          memory: 4000m
+    volumes:
+      - pipelines_code_path:/pipelines # This codes from our github(pipeline folder)
+      - s3data_path_in_your_local:/MainData
+      - your_resultFile_path:/Output # Directly connected to notebook
+    ports:
+      - 80:5000
+    depends_on:
+      - redis
+    container_name: pipelineContainer
+    working_dir: /pipelines/pipeline_controller
+    command: conda run -n pipeline_controller_base gunicorn --bind 0.0.0.0:5000 --workers 2 --threads 4 --worker-class gthread connector:app
+
+  redis: # redis
+    image: redis:alpine
+    command: redis-server
+    ports:
+      - 6379:6379
+    container_name: redisServer
+
+  celery: # celery
+    build:
+      image: swiri021/openkbc_msproject:celerycontainer1
+    volumes: # Celery volume path should be the same with pipeline volume
+      - pipelines_code_path:/pipelines
+      - s3data_path_in_your_local:/MainData
+      - your_resultFile_path:/Output
+    working_dir: /pipelines/pipeline_controller/
+    command: conda run -n pipeline_controller_base celery -A app.celery worker --loglevel=info
+    depends_on:
+      - redis
+      - pipelines
+    container_name: celeryContainer

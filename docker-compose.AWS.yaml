@@ -2,8 +2,7 @@ version: "3"
 services:
   notebook: # Notebook
     build:
-      context: .
-      dockerfile: Dockerfile_jupyterNotebook
+      context: ./notebook
     volumes:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/notebook_lib:/home/jovyan/work/notebook_lib
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/notebook_utils:/home/jovyan/work/notebook_utils
@@ -16,8 +15,7 @@ services:
 
   pipelines: # Pipelines
     build:
-      context: .
-      dockerfile: Dockerfile_SnakemakePipeline
+      context: ./pipelines
     deploy:
       resources:
         limits:
@@ -43,8 +41,7 @@ services:
 
   celery: # celery
     build:
-      context: .
-      dockerfile: Dockerfile_SnakemakePipeline
+      context: ./pipelines
     volumes:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/pipelines:/pipelines
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData
