@@ -9,6 +9,6 @@ apt-get install jq
 
 ## Modules List
 | Name | Description | Main exec file |
-|---------|---------|---------|---------|
+|---------|---------|---------|
 | ec2_deployment | Module for EC2 auto-deployment | aws_module.sh |
 | sageMaker_deployment | Module for sageMaker auto-deployment | sagemaker_module.sh |
