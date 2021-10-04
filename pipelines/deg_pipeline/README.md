@@ -17,3 +17,6 @@ Rscript ../pipelines/pipeline_contoller/installer_Rpackage.R
 ```shell
 snakemake --cores 3
 ```
+
+#### DAG
+![dag](dag.svg)
