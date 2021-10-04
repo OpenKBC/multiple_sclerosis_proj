@@ -24,8 +24,6 @@
 * 4 images are needed to use services (notebook, pipelines, celery and redis)
 * We are using docker registry to distribute images, please refer to [here](https://hub.docker.com/repository/docker/swiri021/openkbc_msproject/general)
 
-![overview](README_resource/overview_recent.png)
-
 * Containers
 ```shell
 docker-compose -f docker-compose.yaml up --build # composing up by the codes or
@@ -53,3 +51,10 @@ sh aws_module.sh t2.medium # Deploying EC2
 cd aws_module/sageMaker_deployment/
 sh sagemaker_module.sh ml.t2.medium test-notebook # Deploying sagemaker instance
 ```
+### Structure Overview
+
+#### Local Environment
+![overview1](README_resource/local_env.png)
+
+#### AWS Environment
+![overview1](README_resource/aws_env.png)
