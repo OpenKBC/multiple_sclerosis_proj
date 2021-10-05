@@ -76,7 +76,7 @@ ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' 
 #scp -i MSplatform-key.pem -o StrictHostKeyChecking=no credentials ubuntu@$ip_addr:/home/ubuntu/.aws
 
 ## copy aws credential to ec2
-scp -r -i MSplatform-key.pem -o StrictHostKeyChecking=no $HOME/.aws/credentials ubuntu@$ip_addr:/home/ubuntu/.aws/
+scp -r -i MSplatform-key.pem -o StrictHostKeyChecking=no $HOME/.aws/credentials ubuntu@$ip_addr:/home/ubuntu/.aws/credentials
 
 ## S3 sync from S3 project bucket
 ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/s3Sync.sh
@@ -84,7 +84,7 @@ ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' 
 ## docker-compose setup
 ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/docker_setup.sh
 
-echo "AWS module processed.."
+echo "AWS module processed!"
 
 #### Running something here
 #### Running something here
