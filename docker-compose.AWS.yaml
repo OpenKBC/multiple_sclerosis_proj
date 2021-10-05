@@ -1,8 +1,7 @@
 version: "3"
 services:
   notebook: # Notebook
-    build:
-      context: ./notebook
+    image: swiri021/openkbc_msproject:pipelinecontainer1
     volumes:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/notebook_lib:/home/jovyan/work/notebook_lib
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/notebook_utils:/home/jovyan/work/notebook_utils
@@ -14,8 +13,7 @@ services:
     container_name: notebookContainer
 
   pipelines: # Pipelines
-    build:
-      context: ./pipelines
+    image: swiri021/openkbc_msproject:pipelinecontainer1
     deploy:
       resources:
         limits:
@@ -41,8 +39,7 @@ services:
     container_name: redisServer
 
   celery: # celery
-    build:
-      context: ./pipelines
+    image: swiri021/openkbc_msproject:celerycontainer1
     volumes:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/pipelines:/pipelines
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData

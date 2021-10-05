@@ -69,14 +69,14 @@ echo "Cooling down starts. It takes more than 8 minutes.."
 ## 7m, cooling down while AWS is loading and preparing resources
 sleep 500
 
-## copy aws credential to ec2
-scp -i MSplatform-key.pem -o StrictHostKeyChecking=no $HOME/.aws/credentials ubuntu@$ip_addr:/home/ubuntu/.aws/
-
 ## Running installer
 ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/installer.sh
 
 ## Moving credentials to ec2 for s3 connection
 #scp -i MSplatform-key.pem -o StrictHostKeyChecking=no credentials ubuntu@$ip_addr:/home/ubuntu/.aws
+
+## copy aws credential to ec2
+scp -r -i MSplatform-key.pem -o StrictHostKeyChecking=no $HOME/.aws/credentials ubuntu@$ip_addr:/home/ubuntu/.aws/
 
 ## S3 sync from S3 project bucket
 ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/s3Sync.sh
