@@ -24,6 +24,7 @@ services:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/pipelines:/pipelines
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/notebook/resultFiles:/Output
+      -  $HOME/.aws/credentials:/root/.aws/credentials:ro
     ports:
       - 80:5000
     depends_on:
@@ -46,6 +47,7 @@ services:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/pipelines:/pipelines
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/resultFiles:/Output
+      -  $HOME/.aws/credentials:/root/.aws/credentials:ro
     working_dir: /pipelines/pipeline_controller/
     command: conda run -n pipeline_controller_base celery -A app.celery worker --loglevel=info
     depends_on:

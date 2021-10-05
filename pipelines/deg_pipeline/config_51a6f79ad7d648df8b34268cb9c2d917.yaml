@@ -1,0 +1,8 @@
+InputFolder: /MainData/rsem_counts
+MetaFile: /MainData/annotation_metadata/EPIC_HCvB_metadata_baseline_updated-share.csv
+SampleColumnName: HCVB_ID
+CondColumnName: DiseaseCourse
+Condition1: RR
+Condition2: CIS
+OutputFolder: ./OutputTest/
+logID: user1

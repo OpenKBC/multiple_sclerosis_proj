@@ -3,7 +3,7 @@ services:
   notebook: # Notebook
     build:
       context: ./notebook
-    #image: swiri021/openkbc_msproject:notebookcontainer1
+    image: swiri021/openkbc_msproject:notebookcontainer1
     volumes:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_lib:/home/jovyan/work/notebook_lib
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_utils:/home/jovyan/work/notebook_utils
@@ -17,15 +17,12 @@ services:
   pipelines: # Pipelines
     build:
       context: ./pipelines
-    #image: swiri021/openkbc_msproject:pipelinecontainer1
-    deploy:
-      resources:
-        limits:
-          memory: 4000m
+    image: swiri021/openkbc_msproject:pipelinecontainer1
     volumes:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/pipelines:/pipelines
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/MainData
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/resultFiles:/Output
+      -  $HOME/.aws/credentials:/root/.aws/credentials:ro
     ports:
       - 80:5000
     depends_on:
@@ -44,11 +41,16 @@ services:
   celery: # celery
     build:
       context: ./pipelines
-    #image: swiri021/openkbc_msproject:celerycontainer1
+    image: swiri021/openkbc_msproject:celerycontainer1
+    deploy:
+      resources:
+        limits:
+          memory: 8000m
     volumes:
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/pipelines:/pipelines
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data:/MainData
       - /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/resultFiles:/Output
+      -  $HOME/.aws/credentials:/root/.aws/credentials:ro
     working_dir: /pipelines/pipeline_controller/
     command: conda run -n pipeline_controller_base celery -A app.celery worker --loglevel=info
     depends_on:
