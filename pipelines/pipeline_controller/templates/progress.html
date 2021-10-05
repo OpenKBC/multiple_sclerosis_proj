@@ -22,7 +22,8 @@
                 $("#pct").html("<b>Workflow has been completed</b>");
                 if(resp.msg == 'done') {
                     return;
-                } else{
+                }
+                else{
                     $("#pct").html("<img src='/static/spinning-loading.gif'>");
                     setTimeout(poll, 1000.0);
                 }

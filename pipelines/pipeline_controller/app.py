@@ -18,6 +18,8 @@ import yaml
 import uuid
 import os
 import subprocess
+import boto3
+import glob
 
 # Custom form making
 from wtforms.validators import Required
@@ -123,13 +125,11 @@ def workflow_running(pipeline_path, yaml_file):
         line = proc.stdout.readline()
         if not line:
             break
-        print(str(line))
         current_task.update_state(state='PROGRESS', meta={'msg': str(line)})
     return 999
 
 @app.route("/workflow_progress")
 def workflow_progress():
-    print("WORKFLOW RETURN")
     jobid = request.values.get('jobid')
     print(jobid)
     if jobid:
@@ -137,8 +137,27 @@ def workflow_progress():
     print(job.state)
     if job.state == 'PROGRESS':
         return json.dumps(dict( state=job.state, msg=job.result['msg'],))
+
     elif job.state == 'SUCCESS':
+        ## S3 Upload process START
+        output_counter = int(session.get('output_count', None))
+        output_folder_list = [ session.get('output'+str(i), None) for i in range(output_counter)]
+        logID = session.get('logID', None)
+        bucket_name = 'openkbc-ms-result-bucket' # fixed bucket
+        #bucket_dest = 's3://'+bucket_name+"/"+logID+"/"
+
+        s3 = boto3.client('s3') # Client set, S3
+        for path in output_folder_list:
+            filelist = glob.glob(path+"/*") # search all files
+            for fname in filelist: # get name
+                with open(fname, "rb") as f:
+                    s3.upload_fileobj(f, bucket_name, logID+"/"+os.path.basename(fname)) # upload to s3
+        ## S3 Upload process END
+
         return json.dumps(dict( state=job.state, msg="done",))
+
+    elif job.state == 'FAILURE':
+        return json.dumps(dict( state=job.state, msg="failture",)) ## return somewhere to exit
     return '{}'
 
 @app.route("/status")
@@ -190,13 +209,26 @@ def _reform_yamlFile(selected_pipeline, data_dict):
     f = open(yamlFileName, "w") # write file with unique name
 
     nested_items = [] # List for handing nested items
+    output_count=0 # Output key count(Tracking purpose)
     for key, value in data_dict.items():
         if key.find('--')>-1: # Nested key has '--'
             subkeys = key.split('--')# 2 layers keys
             nested_items.append([subkeys[0],subkeys[1],value]) #make list
         else:
-            f.write(key+": "+value+"\n")
+            ## Tracking output path and user ID
+            if key.find("Output") > -1 or key.find("output") > -1: ## key has 'output' string
+                output_count+=1
+                session['output'+str(output_count)]=value # set session for output folder (Tracking purpose)    
+            session['output_count'] = output_count # set session for output counter (Tracking purpose)
 
+            if key.find('logID') > -1: # Find log ID
+                session['logID'] = value # set session for ID
+            ## Tracking output path and user ID
+
+            f.write(key+": "+value+"\n") ## Write new form of yaml
+    
+    ### Add error handling here
+    ### Add error handling here
     key1_unique=list(set([x[0] for x in nested_items])) # make a list of root key
     for x in key1_unique:
         f.write(x+":"+"\n") # first line of nested key (root key)
@@ -206,6 +238,10 @@ def _reform_yamlFile(selected_pipeline, data_dict):
     
     f.close()
     return yamlFileName
-    
+
+def get_filenames(path):
+    filelist = glob.glob(path+"/*")
+    return filelist
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
