@@ -20,3 +20,4 @@ sudo git clone https://github.com/OpenKBC/multiple_sclerosis_proj.git # git clon
 cd /home/ubuntu
 sudo mkdir .aws
 sudo chown -R ubuntu:ubuntu /home/ubuntu/.aws/
+sudo chown -R ubuntu:ubuntu /home/ubuntu/MSProject/
