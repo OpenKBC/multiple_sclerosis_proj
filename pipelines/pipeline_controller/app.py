@@ -217,9 +217,6 @@ def _reform_yamlFile(selected_pipeline, data_dict):
         else:
             ## Tracking output path and user ID
             if key.find("Output") > -1 or key.find("output") > -1: ## key has 'output' string
-                if value.find("/") > -1: ## make pipeline root path
-                    value = value.replace("/","")
-                
                 session['output'+str(output_count)]=value # set session for output folder (Tracking purpose)
                 output_count+=1
             session['output_count'] = output_count # set session for output counter (Tracking purpose)
