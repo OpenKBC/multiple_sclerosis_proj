@@ -14,7 +14,7 @@ MSIGDB_PATH = "/Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data/MsigDB_list
 import sys; sys.path.append('/Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_lib');
 import argparse
 import pandas as pd
-from gene_zscore.standard_gzscore import calculator
+from lib.standard_gzscore import calculator
 
 parser = argparse.ArgumentParser(prog='get_all_activattion_scores.py')
 # Input data
