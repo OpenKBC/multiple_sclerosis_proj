@@ -14,8 +14,7 @@ services:
     container_name: notebookContainer
 
   pipelines: # Pipelines
-    build:
-      context: ./pipelines
+    image: swiri021/openkbc_msproject:pipelinecontainer1
     deploy:
       resources:
         limits:
@@ -41,8 +40,7 @@ services:
     container_name: redisServer
 
   celery: # celery
-    build:
-      context: ./pipelines
+    image: swiri021/openkbc_msproject:celerycontainer1
     volumes:
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/pipelines:/pipelines
       - /home/ubuntu/MSProject/multiple_sclerosis_proj/data:/MainData
