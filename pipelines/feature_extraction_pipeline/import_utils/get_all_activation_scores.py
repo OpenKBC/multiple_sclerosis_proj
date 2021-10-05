@@ -23,12 +23,16 @@ parser.add_argument('-i','--input', type=str, dest='input_df', required=True,\
 # Output path
 parser.add_argument('-o','--output', type=str, dest='output', required=True, default='./',\
      help='Output file')
+# MSigDB path
+parser.add_argument('-m','--msigdb', type=str, dest='msig_path', required=True,\
+     help='MSigDB file')
 args = parser.parse_args()
 
 if __name__ == "__main__":
      # .gmt parsing
      count = 0
      gmt_arr = [] # gmt parsing array
+     MSIGDB_PATH = args.msig_path
      with open(MSIGDB_PATH, 'r') as infile:
         for line in infile:
              gmt_value = line.strip().split("\t") # splitting line

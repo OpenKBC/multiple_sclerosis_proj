@@ -46,10 +46,12 @@ rule get_all_activation_score:
         config["DataOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
     output:
         config["DataOutput"]+"activation_scores/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
+    params:
+        config["MsigDBInput"]
     log:
         pipeline_path+"logs/get_all_activation_score_{sample}_"+config["logID"]+".log"
     shell:
-        "python "+pipeline_path+"import_utils/get_all_activation_scores.py -i {input} -o {output} >& {log}"
+        "python "+pipeline_path+"import_utils/get_all_activation_scores.py -i {input} -o {output} -m {params}>& {log}"
 
 rule step1_activationScoreDiff:
     input:
