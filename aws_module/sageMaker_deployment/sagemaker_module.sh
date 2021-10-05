@@ -8,8 +8,9 @@
 securityGroupID=sg-08946d1b26a30d376 # default securityGroup for EC2(flask)
 subnetID=subnet-5c5f8b53
 instanceType=$1 # ml.t2.medium, ml.m5.2xlarge, ml.m5.4xlarge for normal use
-VolumeSize=100 # EBS volumne Size
+VolumeSize=100 # volumne Size
 instanceName=$2
+cronJobName=backup-2min # Lifecycle setting for sagemaker instance
 roleARN=arn:aws:iam::601333025120:role/service-role/AmazonSageMaker-ExecutionRole-20211004T104830
 gitRepo=https://github.com/OpenKBC/multiple_sclerosis_proj_notebook
 InstanceInfoFile=InstanceLaunch-Info # Instance launch information
@@ -21,7 +22,7 @@ then
 
 else
     # Deploy notebook instance
-    aws sagemaker create-notebook-instance --notebook-instance-name $instanceName --instance-type $instanceType --role-arn $roleARN \
+    aws sagemaker create-notebook-instance --notebook-instance-name $instanceName --instance-type $instanceType --role-arn $roleARN --lifecycle-config-name $cronJobName \
     --security-group-ids $securityGroupID --subnet-id $subnetID --volume-size-in-gb $VolumeSize --default-code-repository $gitRepo> InstanceInfoFile
 
     # Check status
