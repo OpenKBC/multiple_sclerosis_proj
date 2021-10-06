@@ -67,7 +67,7 @@ fi
 echo "Cooling down starts. It takes more than 8 minutes.."
 
 ## 7m, cooling down while AWS is loading and preparing resources
-sleep 500
+sleep 530
 
 ## Running installer
 ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/installer.sh
