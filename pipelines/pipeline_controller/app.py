@@ -147,11 +147,19 @@ def workflow_progress():
         #bucket_dest = 's3://'+bucket_name+"/"+logID+"/"
 
         s3 = boto3.client('s3') # Client set, S3
-        for path in output_folder_list:
+        
+        def file_uploader(path): # self-recursive function
             filelist = glob.glob(path+"/*") # search all files
             for fname in filelist: # get name
-                with open(fname, "rb") as f:
-                    s3.upload_fileobj(f, bucket_name, logID+"/"+os.path.basename(fname)) # upload to s3
+                if os.path.isfile(fname):
+                    print(fname)
+                    with open(fname, "rb") as f:
+                        s3.upload_fileobj(f, bucket_name, logID+"/"+os.path.basename(fname)) # upload to s3
+                else:
+                    file_uploader(fname)
+
+        for path in output_folder_list:
+            file_uploader(path)
         ## S3 Upload process END
 
         return json.dumps(dict( state=job.state, msg="done",))
