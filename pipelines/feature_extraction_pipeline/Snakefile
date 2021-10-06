@@ -16,7 +16,7 @@ SAMPLES = ['CD4','CD8','CD14']
 
 rule all:
     input:
-        expand(config["FeatureOutput"]+"{cell}.Ranksum.RFECV.gene.result",  cell=['CD4','CD8','CD14'])
+        expand(config["FeatureOutput"]+"/{cell}.Ranksum.RFECV.gene.result",  cell=['CD4','CD8','CD14'])
 
 rule clean_normalized_data:
     input:
