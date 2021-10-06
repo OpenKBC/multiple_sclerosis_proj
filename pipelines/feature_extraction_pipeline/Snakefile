@@ -22,7 +22,7 @@ rule clean_normalized_data:
     input:
         config["NormalizeData"]["path"]+"counts_"+config["NormalizeData"]["type"]+"_{sample}.csv"
     output:
-        config["DataOutput"]+"counts_normalized/cleanedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
+        config["FeatureOutput"]+"counts_normalized/cleanedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
     log:
         pipeline_path+"logs/clean_normalized_data_{sample}_"+config["logID"]+".log"
     run:
@@ -33,9 +33,9 @@ rule clean_normalized_data:
 
 rule id_conversion:
     input:
-        config["DataOutput"]+"counts_normalized/cleanedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
+        config["FeatureOutput"]+"counts_normalized/cleanedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.cleaned.csv"
     output:
-        config["DataOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
+        config["FeatureOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
     log:
         pipeline_path+"logs/id_conversion_{sample}_"+config["logID"]+".log"
     shell:
@@ -43,9 +43,9 @@ rule id_conversion:
 
 rule get_all_activation_score:
     input:
-        config["DataOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
+        config["FeatureOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv"
     output:
-        config["DataOutput"]+"activation_scores/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
+        config["FeatureOutput"]+"activation_scores/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
     params:
         config["MsigDBInput"]
     log:
@@ -55,7 +55,7 @@ rule get_all_activation_score:
 
 rule step1_activationScoreDiff:
     input:
-        config["DataOutput"]+"activation_scores/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
+        config["FeatureOutput"]+"activation_scores/msigdb_activation_"+config["NormalizeData"]["type"]+"_{sample}.csv"
     output:
         config["FeatureOutput"]+"{sample}.Ranksum.act.csv"
     params:
@@ -86,7 +86,7 @@ rule step3_geneExprDiff:
     output:
         config["FeatureOutput"]+"{sample}.Ranksum.gene.csv"
     params:
-        geneExpr = config["DataOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv",
+        geneExpr = config["FeatureOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv",
         meta = config["MetaInput"],
         msigDB = config["MsigDBInput"],
         compType = config["CompareType"]

@@ -2,7 +2,6 @@
 #countInput: /Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data/rsem_counts
 
 #Output config
-DataOutput: /MainData/
 FeatureOutput: /Output/featureExtraction_by_Jun/LongDiseaseDuration/
 
 #Meta and Database

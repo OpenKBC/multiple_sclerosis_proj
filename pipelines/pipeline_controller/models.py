@@ -22,8 +22,4 @@ class InitForm(Form):
         return choice_output
 
     pipeline_name = SelectField('Please select your pipeline to run: ', choices=_get_directory_name())
-    #essay_question = TextAreaField('Who do you think won the console wars of 1991, Sega Genesis or Super Nintendo? (2048 characters)', validators=[Required(),Length(max=2047)] )
-    #email_addr = TextField('Enter Your Email', validators=[Required()])
-    #submit = SubmitField('Submit')
-
     submit = SubmitField('Submit')

@@ -5,5 +5,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 # docker-compose up for containers
 cd /home/ubuntu/MSProject/multiple_sclerosis_proj
 sudo docker-compose -f docker-compose.AWS.yaml up --detach
+sudo chown -R ubuntu:ubuntu data/
 echo "Services ready!"
 echo $(docker exec -it notebookContainer bash -c 'jupyter notebook list' | grep http | cut -f1 -d ' ') # get token
