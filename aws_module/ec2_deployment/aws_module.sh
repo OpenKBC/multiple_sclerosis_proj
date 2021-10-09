@@ -72,9 +72,6 @@ sleep 530
 ## Running installer
 ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/installer.sh
 
-## Moving credentials to ec2 for s3 connection
-#scp -i MSplatform-key.pem -o StrictHostKeyChecking=no credentials ubuntu@$ip_addr:/home/ubuntu/.aws
-
 ## copy aws credential to ec2
 scp -r -i MSplatform-key.pem -o StrictHostKeyChecking=no $HOME/.aws/credentials ubuntu@$ip_addr:/home/ubuntu/.aws/credentials
 

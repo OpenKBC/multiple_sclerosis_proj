@@ -86,7 +86,7 @@ rule step3_geneExprDiff:
     output:
         config["FeatureOutput"]+"/{sample}.Ranksum.gene.csv"
     params:
-        geneExpr = config["FeatureOutput"]+"counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv",
+        geneExpr = config["FeatureOutput"]+"/counts_normalized/IDConvertedFiles/counts_"+config["NormalizeData"]["type"]+"_{sample}.converted.csv",
         meta = config["MetaInput"],
         msigDB = config["MsigDBInput"],
         compType = config["CompareType"]

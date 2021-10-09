@@ -16,14 +16,14 @@ SAMPLES = ['CD4','CD8','CD14']
 
 rule all:
     input:
-        expand(config["OutputFolder"]+"{cell}_DEG.result",  cell=['CD4','CD8','CD14'])
+        expand(config["OutputFolder"]+"/{cell}_DEG.result",  cell=['CD4','CD8','CD14'])
 
 rule get_matrix:
     input:
         config["InputFolder"]
     output:
-        expr = config["OutputFolder"]+"sample_{sample}_expr.csv",
-        meta = config["OutputFolder"]+"sample_{sample}_meta.csv"
+        expr = config["OutputFolder"]+"/sample_{sample}_expr.csv",
+        meta = config["OutputFolder"]+"/sample_{sample}_meta.csv"
     params:
         metaData = config["MetaFile"],
         samCol = config["SampleColumnName"],
@@ -39,10 +39,10 @@ rule get_matrix:
 
 rule calculate_DEG:
     input:
-        expr = config["OutputFolder"]+"sample_{sample}_expr.csv",
-        meta = config["OutputFolder"]+"sample_{sample}_meta.csv"
+        expr = config["OutputFolder"]+"/sample_{sample}_expr.csv",
+        meta = config["OutputFolder"]+"/sample_{sample}_meta.csv"
     output:
-        config["OutputFolder"]+"{sample}_DEG.result"
+        config["OutputFolder"]+"/{sample}_DEG.result"
     log:
         pipeline_path+"logs/step2_cal_DEG_{sample}_"+config["logID"]+".log"
     shell:
