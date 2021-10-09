@@ -13,5 +13,6 @@ apt-get install jq
 | ec2_deployment | Module for EC2 auto-deployment | aws_module.sh |
 | sageMaker_deployment | Module for sageMaker auto-deployment | sagemaker_module.sh |
 
+
 #### Detail Map
 ![overview1](../README_resource/aws_detail.png)
