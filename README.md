@@ -1,6 +1,6 @@
 # Multiple Sclerosis Project (Data analysis platform/archive)
 
-* Current members: Kicheol Kim, Junhee Yoon
+* Current members: Nicole Yoon, Kicheol Kim, Junhee Yoon
 * Please, leave a message in **Discussions** tab if you have any question and requests
 * Please use docker image to analyze the data. AWS module is ready and Please ask to members for getting auth if AWS is needed
 * Our data is located in S3 bucket
