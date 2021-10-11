@@ -1,13 +1,91 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Basic AWS EC2 module template for OpenKBC MS project. It contains 2 containers in Ubuntu+Docker AMI, 
+which are pipeline container and jupyter notebook container, it needs cooling time for composing up'
+## Parameters for this template
+Parameters:
+  InstanceType:
+    Description: WebServer EC2 instance type
+    Type: String
+    Default: t2.medium
+    AllowedValues: [t2.micro, t2.small, t2.medium, t2.large, t2.xlarge, t2.2xlarge,
+      t3.nano, t3.micro, t3.small, t3.medium, t3.large, t3.xlarge, t3.2xlarge,
+      m4.large, m4.xlarge, m4.2xlarge, m4.4xlarge,
+      m5.large, m5.xlarge, m5.2xlarge, m5.4xlarge]
+    ConstraintDescription: must be a valid EC2 instance type.
+
+    #Description: WebServer EC2 instance type # Fixed instancetype
+    #Type: AWS::SSM::Parameter::Value<String>
+  #Default: MSproject-default-instance
+
+  # For dynamic allocation of Key name
+  #KeyName:
+  #  Description: Name of an existing EC2 KeyPair to enable SSH access to the instances. Linked to AWS Parameter
+  #  Type: AWS::EC2::KeyPair::KeyName
+  #  ConstraintDescription: must be the name of an existing EC2 KeyPair.
 Resources:
   MSProjectEC2:
     Type: AWS::EC2::Instance
     Properties:
-      AvailabilityZone: us-east-1a
+      AvailabilityZone: us-east-1a # fixed
       ImageId: ami-0f6304b1dde9413d6
-      InstanceType: m5.2xlarge
-      SecurityGroups:
+      InstanceType: !Ref InstanceType # Parameters reference
+      KeyName: MSplatform-key # Already setup manutally
+      IamInstanceProfile: ec2-access-role # IAMrole for S3 bucket
+      SecurityGroups:  
         - !Ref SSHSecurityGroup
         - !Ref ServerSecurityGroup
+      Volumes:
+        - Device: "/dev/sdf"
+          VolumeId: !Ref NewDataVolume
+      BlockDeviceMappings: # Change size of root volume
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 100
+      UserData:
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash
+            # Make usable disk
+            sudo mkdir /home/ubuntu/MSProject
+            sudo apt update && sudo apt install -y git
+            sudo apt install -y awscli
+
+            sudo mkfs -t ext4 /dev/nvme1n1 # format attached volume, attempt nvme format
+            sudo mkfs -t ext4 /dev/xvdf # format attached volume(/dev/sdf), attempt nvme format
+
+            sudo mount /dev/nvme1n1 /home/ubuntu/MSProject # Mount to project directory, attempt nvme mount
+            sudo mount /dev/xvdf /home/ubuntu/MSProject # Mount to project directory, attempt standard mount
+            #sudo chown -R ubuntu:ubuntu /home/ubuntu/MSProject
+
+            # Download all codes
+            cd /home/ubuntu/MSProject # go to working directory
+            sudo git clone https://github.com/OpenKBC/multiple_sclerosis_proj.git # git clone the code
+
+            # For AWS S3 credential
+            cd /home/ubuntu
+            sudo chown -R ubuntu:ubuntu /home/ubuntu/MSProject/
+
+            cd /home/ubuntu/MSProject/multiple_sclerosis_proj # default project directory
+            sudo mkdir data/
+            sudo chown -R ubuntu:ubuntu data/
+            aws s3 sync s3://openkbc-ms-maindata-bucket data/ # sync to ec2
+
+            # Install docker-compose
+            sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+
+            # docker-compose up for containers
+            cd /home/ubuntu/MSProject/multiple_sclerosis_proj
+            sudo /usr/local/bin/docker-compose -f /home/ubuntu/MSProject/multiple_sclerosis_proj/docker-compose.AWS.yaml up --detach
+            echo "Services ready!"
+            echo $(docker exec -it notebookContainer bash -c 'jupyter notebook list' | grep http | cut -f1 -d ' ') # get token
+            cfn-signal -e $? --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region} # check resource is ready
+
+  NewDataVolume:
+    Type: AWS::EC2::Volume
+    Properties:
+      AvailabilityZone: us-east-1a
+      Size: 100
 
   # an elastic IP for our instance
   MyEIP:

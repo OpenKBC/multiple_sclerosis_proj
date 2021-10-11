@@ -18,6 +18,6 @@ sudo git clone https://github.com/OpenKBC/multiple_sclerosis_proj.git # git clon
 
 # For AWS S3 credential
 cd /home/ubuntu
-sudo mkdir .aws
-sudo chown -R ubuntu:ubuntu /home/ubuntu/.aws/
+#sudo mkdir .aws
+#sudo chown -R ubuntu:ubuntu /home/ubuntu/.aws/
 sudo chown -R ubuntu:ubuntu /home/ubuntu/MSProject/

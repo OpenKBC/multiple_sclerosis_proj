@@ -18,7 +18,7 @@ PemKeyName=MSplatform-key
 ## Change auth for pem key
 #chmod -R 400 MSplatform-key.pem
 
-## EC2 Instance launch with modifying block-device-mapping, ami-030cd17b75425e48d(plain ubuntu)
+## EC2 Instance launch with modifying block-device-mapping
 aws ec2 run-instances --image-id ami-0f6304b1dde9413d6 --block-device-mappings file://mapping_dockerAMI.json \
 --instance-type $instanceType --security-group-ids $securityGroupID --key-name $PemKeyName > $InstanceInfoFile
 
@@ -69,11 +69,14 @@ echo "Cooling down starts. It takes more than 8 minutes.."
 ## 7m, cooling down while AWS is loading and preparing resources
 sleep 530
 
+## Attach existed IAM role for S3 access
+aws ec2 associate-iam-instance-profile --instance-id $InstanceID --iam-instance-profile Name=ec2-access-role
+
 ## Running installer
 ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/installer.sh
 
 ## copy aws credential to ec2
-scp -r -i MSplatform-key.pem -o StrictHostKeyChecking=no $HOME/.aws/credentials ubuntu@$ip_addr:/home/ubuntu/.aws/credentials
+#scp -r -i MSplatform-key.pem -o StrictHostKeyChecking=no $HOME/.aws/credentials ubuntu@$ip_addr:/home/ubuntu/.aws/credentials
 
 ## S3 sync from S3 project bucket
 ssh -i MSplatform-key.pem -o StrictHostKeyChecking=no ubuntu@$ip_addr 'bash -s' < utils/s3Sync.sh
