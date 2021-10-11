@@ -17,7 +17,11 @@ apt-get install jq
 
 ### Usage on local PC
 ```
+# Using plain bash script
 sh aws_module.sh t2.micro #with instance type(t2.micro for testing, maximum : m5.xlarge, m5.2xlarge)
+
+# Using CloudFormation and stack status will show completion message, but actually installation process is running in background
+sh ec2_cloudformation_launcher t2.micro name-of-pipeline
 ```
 
 ### Requirements for docker

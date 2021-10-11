@@ -79,7 +79,6 @@ Resources:
             sudo /usr/local/bin/docker-compose -f /home/ubuntu/MSProject/multiple_sclerosis_proj/docker-compose.AWS.yaml up --detach
             echo "Services ready!"
             echo $(docker exec -it notebookContainer bash -c 'jupyter notebook list' | grep http | cut -f1 -d ' ') # get token
-            cfn-signal -e $? --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region} # check resource is ready
 
   NewDataVolume:
     Type: AWS::EC2::Volume
