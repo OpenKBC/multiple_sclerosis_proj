@@ -15,7 +15,7 @@ Parameters:
 
     #Description: WebServer EC2 instance type # Fixed instancetype
     #Type: AWS::SSM::Parameter::Value<String>
-  #Default: MSproject-default-instance
+    #Default: MSproject-default-instance # Existed parameters in AWS Parameter store
 
   # For dynamic allocation of Key name
   #KeyName:
@@ -83,6 +83,7 @@ Resources:
   NewDataVolume:
     Type: AWS::EC2::Volume
     Properties:
+      #AvailabilityZone: !GetAtt MSProjectEC2.AvailabilityZone
       AvailabilityZone: us-east-1a
       Size: 100
 
@@ -125,3 +126,8 @@ Resources:
         FromPort: 22
         ToPort: 22
         CidrIp: 192.168.1.1/32
+
+Outputs:
+  EC2PublicIP:
+    Value:
+      !GetAtt MSProjectEC2.PublicIp # Output for public IP
