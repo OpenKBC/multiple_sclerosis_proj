@@ -10,8 +10,6 @@ Description: This code generates activation scores by using MsigDB. This code ne
 ## Move to setting.env in the future
 MSIGDB_PATH = "/Users/junheeyun/OpenKBC/multiple_sclerosis_proj/data/MsigDB_list/msigdb.v7.4.entrez.gmt"
 
-## sys import path for library calling
-import sys; sys.path.append('/Users/junheeyun/OpenKBC/multiple_sclerosis_proj/notebook/notebook_lib');
 import argparse
 import pandas as pd
 from lib.standard_gzscore import calculator
