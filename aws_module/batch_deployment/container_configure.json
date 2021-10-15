@@ -1,0 +1,34 @@
+{   
+    "image" : "swiri021/activation_score_batch",
+    "jobRoleArn" : "arn:aws:iam::601333025120:role/ecsTaskExecutionRole",
+    "executionRoleArn" : "arn:aws:iam::601333025120:role/ecsTaskExecutionRole",
+    
+    "networkConfiguration": {
+        "assignPublicIp": "ENABLED"
+    },
+
+    "fargatePlatformConfiguration" : {
+        "platformVersion": "1.4.0"
+    },
+
+    "resourceRequirements" : [
+        {
+            "value":"1",
+            "type":"VCPU"
+        },
+        {
+            "value":"5120",
+            "type":"MEMORY"
+        }
+    ],
+    "environment": [
+        {
+            "name": "msigdb",
+            "value": "msigdb.v7.4.entrez.gmt"
+        },
+        {
+            "name": "inputfile",
+            "value": "counts_vst_CD4.converted.csv"  
+        }
+      ]
+}

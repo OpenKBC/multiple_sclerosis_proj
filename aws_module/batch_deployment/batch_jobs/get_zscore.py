@@ -1,9 +1,24 @@
+__author__ = "Junhee Yoon"
+__version__ = "1.0.0"
+__maintainer__ = "Junhee Yoon"
+__email__ = "swiri021@gmail.com"
+
+"""
+Description: This is batch job for calculating activation zscore by using sample matrix.
+"""
+
 import pandas as pd
 import numpy as np
 import os
 import boto3
 
 def gs_zscore(df, names='Zscore', gene_set=[]):
+    """
+    Calculate gene-Zscore by using data
+    input: sample matrix, output column name, gene list
+    output: Zscore dataframe
+    """
+
     zscore=[]
     arr1_index = df.index.tolist()
     inter = list(set(arr1_index).intersection(gene_set))
@@ -31,12 +46,16 @@ def search_obj(bucketObj, searchList):
 
 # Get data from S3
 def getFile(bucketName, searchList, destpath='/data/'):
-    #bucketName = 'openkbc-ms-maindata-bucket'
+    """
+    Download file from S3
+    input: bucketname, input name, container path for samples
+    output: output path string
+    """
+
     s3 = boto3.resource('s3') # s3 resource
     my_bucket = s3.Bucket(bucketName) # Bucket Set
     
-    #searchList = ['counts_vst_CD4.converted.csv', 'counts_vst_CD8.converted.csv', 'counts_vst_CD14.converted.csv'] # filename list
-    s3_list = search_obj(my_bucket, searchList)
+    s3_list = search_obj(my_bucket, searchList) # Search file object
     
     source_dir = destpath # Only writable folder in lambda
     targetFile=source_dir+searchList[0]
@@ -51,10 +70,16 @@ def uploadFile(bucketName, writeFileName, data):
 
 if __name__ == "__main__":
 
+    ### Get ENV variables
+    msigdbName = os.environ['msigdb'] # msigdb.v7.4.entrez.gmt
+    sampleName = os.environ['inputfile'] # counts_vst_CD4.converted.csv
+
+    ### Error handling here
+
     ### Data prepration
     main_bucket = 'openkbc-ms-maindata-bucket'
-    MSIGDB_PATH = getFile(main_bucket, ['msigdb.v7.4.entrez.gmt'])
-    input_df = getFile(main_bucket, ['counts_vst_CD4.converted.csv'])
+    MSIGDB_PATH = getFile(main_bucket, [msigdbName])
+    input_df = getFile(main_bucket, [sampleName])
 
     ### Actual job
     # .gmt parsing
