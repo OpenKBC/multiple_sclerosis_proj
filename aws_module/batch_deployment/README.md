@@ -1,5 +1,6 @@
 ## AWS module for running the project
 * This module supports to run the project codes, pipelines and analysis by launching AWS Batch. Currently, it is on development phase and this module can run with limited code (Activation Score Calculation).
+* Parallel jobs execution is needed lambda function input, please use lambda_deployment section first
 
 ### Requirements on local PC
 ```
@@ -22,5 +23,9 @@ apt-get install awscli
 ```
 * And run module
 ```
-sh batch_module.sh
+# Single job
+sh batch_module_singleJob.sh 
+
+# Parallelized job
+sh batch_module_parallel.sh
 ```
