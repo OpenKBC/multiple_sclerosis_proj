@@ -13,7 +13,7 @@
 
     "resourceRequirements" : [
         {
-            "value":"1",
+            "value":"2",
             "type":"VCPU"
         },
         {
@@ -29,6 +29,14 @@
         {
             "name": "inputfile",
             "value": "counts_vst_CD4.converted.csv"  
+        },
+        {
+            "name": "mainbucket",
+            "value": "openkbc-ms-maindata-bucket"
+        },
+        {
+            "name": "uploadbucket",
+            "value": "openkbc-ms-batchresult-bucket"
         }
       ]
 }

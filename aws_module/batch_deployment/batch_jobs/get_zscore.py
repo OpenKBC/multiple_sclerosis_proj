@@ -73,13 +73,14 @@ if __name__ == "__main__":
     ### Get ENV variables
     msigdbName = os.environ['msigdb'] # msigdb.v7.4.entrez.gmt
     sampleName = os.environ['inputfile'] # counts_vst_CD4.converted.csv
+    mainDataBucket = os.environ['mainbucket'] # openkbc-ms-maindata-bucket
+    uploadDataBucket = os.environ['uploadbucket'] # openkbc-ms-casting-bucket
 
     ### Error handling here
 
     ### Data prepration
-    main_bucket = 'openkbc-ms-maindata-bucket'
-    MSIGDB_PATH = getFile(main_bucket, [msigdbName])
-    input_df = getFile(main_bucket, [sampleName])
+    MSIGDB_PATH = getFile('openkbc-ms-maindata-bucket', [msigdbName]) ## This is FIXED parameter
+    input_df = getFile(mainDataBucket, [sampleName])
 
     ### Actual job
     # .gmt parsing
@@ -108,5 +109,5 @@ if __name__ == "__main__":
     zscore_df = pd.concat(zscore_arr, axis=1) # make dataframe
 
     ### Result upload
-    upload_bucket = 'openkbc-ms-casting-bucket'
-    uploadFile(upload_bucket, 'output.csv', zscore_df)
+    output_number = sampleName.split('.')[-2] # Format is always same one (name.0.csv, name.1.csv..)
+    uploadFile(uploadDataBucket, 'output.'+output_number+'.csv', zscore_df)
