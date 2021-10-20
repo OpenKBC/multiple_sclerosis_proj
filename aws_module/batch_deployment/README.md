@@ -5,6 +5,7 @@
 ### Requirements on local PC
 ```
 apt-get install awscli
+apt-get install jq
 ```
 
 ## Batch Jobs List
