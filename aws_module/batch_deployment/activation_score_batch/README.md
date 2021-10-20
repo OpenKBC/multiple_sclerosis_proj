@@ -7,13 +7,28 @@
 apt-get install awscli
 ```
 
-## Batch Jobs List
-| Name | Description | Main exec file |
-|---------|---------|---------|
-| activation_score_batch | Activation score calculation (Parallelized or Single)| batch_module_singleJob.sh or batch_module_parallel.sh |
-| deg_pipeline_batch | DEG calculation pipeline(Array job) | batch_module_singleJob.sh |
-| feature_extraction_batch | Feature extraction pipeline with activation scores | Developing |
+### Usage on local PC
+* To change sample, please replace JSON file to calculate the score
+```json
+    "environment": [
+        {
+            "name": "msigdb",
+            "value": "msigdb.v7.4.entrez.gmt(don't change this)"
+        },
+        {
+            "name": "inputfile",
+            "value": "Sample name here"
+        }
+      ]
+```
+* And run module
+```
+# Single job
+sh batch_module_singleJob.sh 
 
+# Parallelized job
+sh batch_module_parallel.sh
+```
 
 ### Multiple Jobs Flow
 ![flow1](../../README_resource/batch_detail.png)
