@@ -1,0 +1,13 @@
+{
+    "jobName": "deg-pipeline-job",
+    "jobQueue": "deg-pipeline-queue",
+    "arrayProperties": {
+      "size": 3
+    },
+    "dependsOn":[
+        {
+            "type":"SEQUENTIAL"
+        }
+    ],
+    "jobDefinition": "deg-pipeline-job"
+}
