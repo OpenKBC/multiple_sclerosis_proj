@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Need to push job docker images before running this module, this module is an example for how to run single job for AWS batch.
-## It generate zscore by using gene matrix in main bucket, it is not parallelized.
+## This is same pipeline with snakemake pipeline and it will generate DEG result for one cell type.
 
 echo "Creating compute environment.."
 aws batch create-compute-environment --compute-environment-name deg-pipeline-env \
@@ -21,17 +21,4 @@ aws batch submit-job --cli-input-json file://submit_configure.json > job.submitt
 
 sleep 2
 
-jobID=$(jq '.jobId' job.submitted)
-jobID="${jobID%\"}" # Remove double quotes from string
-jobID="${jobID#\"}" # Remove double quotes from string
-
-## Purpose of this bash file is running while EC2 is ready. When it is ready, automatically it will be out
-while [ "$objectState" != "SUCCEEDED" ];do # EC2 running checking
-    sleep 1
-    objStatuses=$(aws batch describe-jobs --jobs $jobID)
-    objectState=$( jq --jsonargs '.jobs | .[] | .status' <<< "${objStatuses}" )
-    objectState="${objectState%\"}" # Remove double quotes from string
-    objectState="${objectState#\"}" # Remove double quotes from string
-    echo "Job status: $objectState "
-done
-echo "Job has been completed.."
+echo "Job has been submitted and go to console for checking further status.."
