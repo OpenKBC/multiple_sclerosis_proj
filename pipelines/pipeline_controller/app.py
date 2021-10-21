@@ -34,7 +34,8 @@ from subprocess import Popen, PIPE
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'swiri021swiri021' # CSRF key
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY # CSRF key
 
 ## Celery setting
 app.config.update(
