@@ -57,4 +57,4 @@ sh sagemaker_module.sh ml.t2.medium test-notebook # Deploying sagemaker instance
 ![overview1](README_resource/local_env.png)
 
 #### AWS Environment
-![overview1](README_resource/aws_env.png)
+![overview1](README_resource/aws_detail_full.png)
