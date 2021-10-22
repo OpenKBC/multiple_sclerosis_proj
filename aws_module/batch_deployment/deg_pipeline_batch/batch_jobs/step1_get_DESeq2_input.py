@@ -71,5 +71,5 @@ if __name__ == "__main__":
     # Extract overlapped samples
     meta_result_df = meta_result_df.loc[overlapped_samples]
     result_df = result_df[overlapped_samples]
-    result_df.astype(int).to_csv('/output/'+args.celltype+"_output.csv") # Output
-    meta_result_df.to_csv('/output/'+args.celltype+"_meta_output.csv")
+    result_df.astype(int).to_csv(outputPath+args.celltype+"_output.csv") # Output
+    meta_result_df.to_csv(outputPath+args.celltype+"_meta_output.csv")

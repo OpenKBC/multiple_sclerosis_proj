@@ -18,6 +18,7 @@
 ### Resources
 * Slides (Ask to members)
 * S3 Bucket (Ask to members)
+* NAS for main data distribution
 * https://openkbc.github.io/multiple_sclerosis_proj/
 
 ### Usage of docker container
@@ -44,13 +45,8 @@ http://localhost/
 ```
 
 * AWS module
-```shell
-cd aws_module/ec2_deployment/
-sh aws_module.sh t2.medium # Deploying EC2
+* Please refer to aws module README
 
-cd aws_module/sageMaker_deployment/
-sh sagemaker_module.sh ml.t2.medium test-notebook # Deploying sagemaker instance
-```
 ### Structure Overview
 
 #### Local Environment
