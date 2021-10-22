@@ -11,7 +11,7 @@ then
 
 elif [ $AWS_BATCH_JOB_ARRAY_INDEX -eq 1 ];
 then
-    conda run -n pipeline_controller_base Rscript step2_DESeq2_calculator.R /output/${celltype}_output.csv /output/${celltype}_meta_output.csv /output/DEG_${celltype}.result
+    conda run -n pipeline_controller_base Rscript step2_DESeq2_calculator.R ${efspoint}${celltype}_output.csv ${efspoint}${celltype}_meta_output.csv ${efspoint}DEG_${celltype}.result
 
 else
     conda run -n pipeline_controller_base python step3_upload_to_s3.py -c $celltype

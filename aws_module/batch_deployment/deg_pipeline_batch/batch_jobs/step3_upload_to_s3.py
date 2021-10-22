@@ -20,9 +20,10 @@ args = parser.parse_args()
 
 if __name__ == "__main__":
     uploadDataBucket = os.environ['uploadbucket'] # openkbc-ms-casting-bucket
+    outputPath = os.environ['efspoint'] # /output/
 
     ### Data prepration
     s3 = botoHandler(uploadDataBucket) # Call boto3
-    outputFile = '/output/DEG_'+args.celltype+'.result'
+    outputFile = outputPath+'DEG_'+args.celltype+'.result'
     f = open(outputFile, 'r').read()
     s3.uploadFile(outputFile, f, datatype='txt')
