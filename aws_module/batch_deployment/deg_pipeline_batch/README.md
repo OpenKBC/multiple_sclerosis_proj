@@ -26,4 +26,4 @@ sh batch_module_singleJob.sh # For CD4 only
 ```
 
 ### Multiple Jobs Flow
-![flow1](../../../README_resource/batch_detail.png)
+![flow1](../../../README_resource/batch_detail2.png)
