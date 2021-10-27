@@ -32,4 +32,4 @@ sh batch_module_parallel.sh
 ```
 
 ### Multiple Jobs Flow
-![flow1](../../README_resource/batch_detail.png)
+![flow1](../../../README_resource/batch_detail.png)
