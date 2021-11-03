@@ -1,0 +1,13 @@
+{
+    "jobName": "feature-ext-pipeline-job",
+    "jobQueue": "feature-ext-pipeline-queue",
+    "arrayProperties": {
+      "size": 3
+    },
+    "dependsOn":[
+        {
+            "type":"SEQUENTIAL"
+        }
+    ],
+    "jobDefinition": "deg-pipeline-job"
+}
