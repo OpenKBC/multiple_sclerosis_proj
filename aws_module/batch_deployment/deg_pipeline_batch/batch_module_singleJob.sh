@@ -12,9 +12,13 @@ sleep 3
 echo "Creating job queue.."
 aws batch create-job-queue --job-queue-name deg-pipeline-queue --compute-environment-order order=1,computeEnvironment=deg-pipeline-env --priority 100
 
+sleep 5
+
 echo "Creating job.."
 aws batch register-job-definition --job-definition-name deg-pipeline-job --platform-capabilities FARGATE \
 --type container --container-properties file://container_configure.json
+
+sleep 5
 
 echo "Submit.."
 aws batch submit-job --cli-input-json file://submit_configure.json > job.submitted

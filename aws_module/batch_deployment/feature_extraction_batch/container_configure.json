@@ -1,5 +1,5 @@
 {   
-    "image" : "swiri021/deg_pipeline:v1.0.0",
+    "image" : "swiri021/feature_ext_pipeline:v1.0.0",
     "jobRoleArn" : "arn:aws:iam::601333025120:role/ecsTaskExecutionRole",
     "executionRoleArn" : "arn:aws:iam::601333025120:role/ecsTaskExecutionRole",
 
