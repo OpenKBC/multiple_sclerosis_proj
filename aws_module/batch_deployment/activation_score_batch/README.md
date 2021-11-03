@@ -1,3 +1,5 @@
+# Activation Score Calculation in AWS Batch
+
 ## AWS module for running the project
 * This is initial version of DEG pipeline with AWS batch, it has same function with pipeline module in this project.
 * To change input, JSON file needs modification
