@@ -1,6 +1,8 @@
+# DEG Pipieline in AWS Batch
+
 ## AWS module for running the project
-* This module supports to run the project codes, pipelines and analysis by launching AWS Batch. Currently, it is on development phase and this module can run with limited code (Activation Score Calculation).
-* Parallel jobs execution is needed lambda function input, please use lambda_deployment section first
+* This module supports to get sample DEG by certain conditions, it is using AWS Batch and need to launch separate running for each cells result(CD4, CD8, CD14)
+* There is no parallel job for this and it is sequential job type.
 
 ### Requirements on local PC
 ```
@@ -25,5 +27,5 @@ apt-get install jq
 sh batch_module_singleJob.sh # For CD4 only
 ```
 
-### Multiple Jobs Flow
+### Sequential Jobs Flow
 ![flow1](../../../README_resource/batch_detail2.png)
