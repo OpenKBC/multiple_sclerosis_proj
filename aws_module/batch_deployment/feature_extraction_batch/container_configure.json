@@ -1,67 +1,71 @@
-{   
-    "image" : "swiri021/feature_ext_pipeline:v1.0.0",
-    "jobRoleArn" : "arn:aws:iam::601333025120:role/ecsTaskExecutionRole",
-    "executionRoleArn" : "arn:aws:iam::601333025120:role/ecsTaskExecutionRole",
-
-    "command":[ "sh", "pipeline_controller.sh"],
-    "mountPoints": [
-        {
-            "sourceVolume": "efsVolume",
-            "containerPath": "/output",
-            "readOnly": false
+{
+  "image": "swiri021/feature_ext_pipeline:v1.0.0",
+  "jobRoleArn": "arn:aws:iam::601333025120:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::601333025120:role/ecsTaskExecutionRole",
+  "command": [
+    "sh",
+    "pipeline_controller.sh"
+  ],
+  "mountPoints": [
+    {
+      "sourceVolume": "efsVolume",
+      "containerPath": "/output",
+      "readOnly": false
+    }
+  ],
+  "volumes": [
+    {
+      "name": "efsVolume",
+      "efsVolumeConfiguration": {
+        "fileSystemId": "fs-0d9d743a5e5d7a503",
+        "transitEncryption": "ENABLED",
+        "authorizationConfig": {
+          "accessPointId": "fsap-0be7f3243cac70a52",
+          "iam": "ENABLED"
         }
-    ],
-    "volumes": [
-        {
-            "name": "efsVolume",
-            "efsVolumeConfiguration": {
-                "fileSystemId": "fs-017866e38b27933d8"
-            }
-        }
-    ],
-
-    "networkConfiguration": {
-        "assignPublicIp": "ENABLED"
+      }
+    }
+  ],
+  "networkConfiguration": {
+    "assignPublicIp": "ENABLED"
+  },
+  "fargatePlatformConfiguration": {
+    "platformVersion": "1.4.0"
+  },
+  "resourceRequirements": [
+    {
+      "value": "2",
+      "type": "VCPU"
     },
-
-    "fargatePlatformConfiguration" : {
-        "platformVersion": "1.4.0"
+    {
+      "value": "5120",
+      "type": "MEMORY"
+    }
+  ],
+  "environment": [
+    {
+      "name": "metafile",
+      "value": "EPIC_HCvB_metadata_baseline_updated-share.csv"
     },
-
-    "resourceRequirements" : [
-        {
-            "value":"2",
-            "type":"VCPU"
-        },
-        {
-            "value":"5120",
-            "type":"MEMORY"
-        }
-    ],
-    "environment": [
-        {
-            "name": "metafile",
-            "value": "EPIC_HCvB_metadata_baseline_updated-share.csv"
-        },
-        {
-            "name": "efspoint",
-            "value": "/output/"  
-        },
-        {
-            "name": "msigDBPATH",
-            "value": "msigdb.v7.4.entrez.gmt"  
-        },
-        {
-            "name": "startFile",
-            "value": "counts_vst_CD4.csv"  
-        },
-        {
-            "name": "mainbucket",
-            "value": "openkbc-ms-maindata-bucket"
-        },
-        {
-            "name": "uploadbucket",
-            "value": "openkbc-ms-batchresult-bucket"
-        }  
-      ]
+    {
+      "name": "efspoint",
+      "value": "/output/"
+    },
+    {
+      "name": "msigDBPATH",
+      "value": "msigdb.v7.4.entrez.gmt"
+    },
+    {
+      "name": "startFile",
+      "value": "counts_vst_CD4.csv"
+    },
+    {
+      "name": "mainbucket",
+      "value": "openkbc-ms-maindata-bucket"
+    },
+    {
+      "name": "uploadbucket",
+      "value": "openkbc-ms-batchresult-bucket"
+    }
+  ]
 }

@@ -5,7 +5,7 @@
 
 echo "Creating compute environment.."
 aws batch create-compute-environment --compute-environment-name deg-pipeline-env \
---type MANAGED --compute-resources type=FARGATE,maxvCpus=8,securityGroupIds=sg-08946d1b26a30d376,subnets=[subnet-46231822,subnet-5c5f8b53]
+--type MANAGED --compute-resources type=FARGATE,maxvCpus=8,securityGroupIds=sg-08946d1b26a30d376,subnets=[subnet-c6bdede9,subnet-23a0b868]
 
 sleep 3
 

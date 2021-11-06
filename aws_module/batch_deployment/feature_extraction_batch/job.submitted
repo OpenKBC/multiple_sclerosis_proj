@@ -1,5 +1,0 @@
-{
-    "jobArn": "arn:aws:batch:us-east-1:601333025120:job/e93cfc8c-8cbb-4b74-acd4-939bc80a7c1f",
-    "jobName": "feature-ext-pipeline-job",
-    "jobId": "e93cfc8c-8cbb-4b74-acd4-939bc80a7c1f"
-}

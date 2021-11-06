@@ -2,12 +2,13 @@
 
 ## Need to push job docker images before running this module, this module is an example for how to run single job for AWS batch.
 ## This is same pipeline with snakemake pipeline and it will generate DEG result for one cell type.
+
 # echo "Creating EFS to share files.."
 
 
 echo "Creating compute environment.."
 aws batch create-compute-environment --compute-environment-name feature-ext-pipeline-env \
---type MANAGED --compute-resources type=FARGATE,maxvCpus=8,securityGroupIds=sg-08946d1b26a30d376,subnets=[subnet-46231822,subnet-5c5f8b53]
+--type MANAGED --compute-resources type=FARGATE,maxvCpus=8,securityGroupIds=sg-08946d1b26a30d376,subnets=[subnet-c6bdede9,subnet-23a0b868]
 
 sleep 5
 
