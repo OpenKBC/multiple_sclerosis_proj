@@ -1,9 +1,15 @@
-# Multiple Sclerosis Project (Data analysis platform/archive)
+# Multiple Sclerosis Project (Main page and local evironment repository)
 
 * Current members: Nicole Yoon, Kicheol Kim, Junhee Yoon
 * Please, leave a message in **Discussions** tab if you have any question and requests
 * Please use docker image to analyze the data. AWS module is ready and Please ask to members for getting auth if AWS is needed
 * Our data is located in S3 bucket
+
+### AWS module
+* **Please refer to this repository for AWS usage**: [AWS module repository](https://github.com/OpenKBC/multiple_sclerosis_AWSmodule)
+
+### Notebook module
+* **Please refer to this repository for Notebook usage**: [Notebook repository](https://github.com/OpenKBC/multiple_sclerosis_proj_notebook)
 
 ### Goal
 * Finding potential biomarkers and therapeutic target for helping multiple sclerosis patients, **reference**: [Cell type-specific transcriptomics identifies neddylation as a novel therapeutic target in multiple sclerosis](https://pubmed.ncbi.nlm.nih.gov/33374005/)
@@ -44,13 +50,6 @@ http://localhost:8888/token_number
 http://localhost/
 ```
 
-* AWS module
-* Please refer to aws module README
-
 ### Structure Overview
 
-#### Local Environment
 ![overview1](README_resource/local_env.png)
-
-#### AWS Environment
-![overview1](README_resource/aws_detail_full.png)
