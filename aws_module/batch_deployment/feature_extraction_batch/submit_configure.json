@@ -2,7 +2,7 @@
     "jobName": "feature-ext-pipeline-job",
     "jobQueue": "feature-ext-pipeline-queue",
     "arrayProperties": {
-      "size": 3
+      "size": 9
     },
     "dependsOn":[
         {
