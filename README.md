@@ -1,6 +1,6 @@
 # Multiple Sclerosis Project (Main page and local evironment repository)
 
-* Current members: Nicole Yoon, Kicheol Kim, Junhee Yoon
+* Current members: [Nicole Yoon](https://github.com/lacuss), [Kicheol Kim](https://github.com/kicheolkim), [Junhee Yoon](https://github.com/swiri021)
 * Please, leave a message in **Discussions** tab if you have any question and requests
 * Please use docker image to analyze the data. AWS module is ready and Please ask to members for getting auth if AWS is needed
 * Our data is located in S3 bucket
